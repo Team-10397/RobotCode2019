@@ -56,7 +56,7 @@ import org.firstinspires.ftc.teamcode.HardwareRobot;
 public class DriveTank extends OpMode{
 
     /* Declare OpMode members. */
-    private HardwareRobot iceRobot = new HardwareRobot(); // use the class created to define a Pushbot's hardware
+    HardwareRobot iceRobot = new HardwareRobot(); // use the class created to define a Pushbot's hardware
                                                          // could also use HardwarePushbotMatrix class.
     //double          clawOffset  = 0.0 ;                  // Servo mid position
     //final double    CLAW_SPEED  = 0.02 ;                 // sets rate to move servo
@@ -102,7 +102,7 @@ public class DriveTank extends OpMode{
         right = -gamepad1.right_stick_y;
 
         iceRobot.leftDrive.setPower(Range.clip(left,-1.0,1.0));
-        iceRobot.rightDrive.setPower(Range.clip(right,-1.0,1.0);
+        iceRobot.rightDrive.setPower(Range.clip(right,-1.0,1.0));
 
         // Use gamepad left & right Bumpers to open and close the claw
         //if (gamepad1.right_bumper)
