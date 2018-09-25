@@ -101,8 +101,8 @@ public class DriveTank extends OpMode{
         left = -gamepad1.left_stick_y;
         right = -gamepad1.right_stick_y;
 
-        iceRobot.leftDrive.setPower(Range.clip(left,-1.0,1.0));
-        iceRobot.rightDrive.setPower(Range.clip(right,-1.0,1.0));
+        iceRobot.leftDrive.setPower(Range.clip(left+right,-1.0,1.0));
+        iceRobot.rightDrive.setPower(Range.clip(left-right,-1.0,1.0));
 
         // Use gamepad left & right Bumpers to open and close the claw
         //if (gamepad1.right_bumper)

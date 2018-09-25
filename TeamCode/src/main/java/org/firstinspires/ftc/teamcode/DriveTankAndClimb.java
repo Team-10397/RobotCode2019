@@ -36,7 +36,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.Range;
 
-@TeleOp(name="Robot: Teleop Tank", group="TeleOp")
+@TeleOp(name="Robot: Teleop Tank w climb", group="TeleOp")
 //@Disabled
 public class DriveTankAndClimb extends OpMode{
 
@@ -76,22 +76,22 @@ public class DriveTankAndClimb extends OpMode{
      */
     @Override
     public void loop() {
-        double left;
-        double right;
+        double drive;
+        double turn;
         double upClimb;
         double downClimb;
-        double maxClimbPower = 50 /* percent */ /100.0; // cool formatting ay?
+        double maxClimbPower = 100 /* percent */ /100.0; // cool formatting ay?
 
         // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
-        left = -gamepad1.left_stick_y;
-        right = -gamepad1.right_stick_y;
+        drive = -gamepad1.left_stick_y;
+        turn = -gamepad1.right_stick_x;
         upClimb = gamepad1.left_trigger;
         downClimb = gamepad1.right_trigger;
 
 
-        iceRobot.leftDrive.setPower(Range.clip(left,-1.0,1.0));
-        iceRobot.rightDrive.setPower(Range.clip(right,-1.0,1.0));
-        iceRobot.climbMotor.setPower((upClimb+downClimb)*maxClimbPower);
+        iceRobot.leftDrive.setPower(Range.clip(drive+turn,-1.0,1.0));
+        iceRobot.rightDrive.setPower(Range.clip(drive-turn,-1.0,1.0));
+        iceRobot.climbMotor.setPower((upClimb-downClimb)*maxClimbPower);
 
         // Use gamepad left & right Bumpers to open and close the claw
         //if (gamepad1.right_bumper)
@@ -114,8 +114,8 @@ public class DriveTankAndClimb extends OpMode{
 
         // Send telemetry message to signify robot running;
         //telemetry.addData("claw",  "Offset = %.2f", clawOffset);
-        telemetry.addData("left",  "%.2f", left);
-        telemetry.addData("right", "%.2f", right);
+        telemetry.addData("drive",  "%.2f", drive);
+        telemetry.addData("turn", "%.2f", turn);
     }
 
     /*
