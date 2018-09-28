@@ -93,27 +93,6 @@ public class DriveTankAndClimb extends OpMode{
         iceRobot.rightDrive.setPower(Range.clip(drive-turn,-1.0,1.0));
         iceRobot.climbMotor.setPower((upClimb-downClimb)*maxClimbPower);
 
-        // Use gamepad left & right Bumpers to open and close the claw
-        //if (gamepad1.right_bumper)
-        //    clawOffset += CLAW_SPEED;
-        //else if (gamepad1.left_bumper)
-        //    clawOffset -= CLAW_SPEED;
-
-        // Move both servos to new position.  Assume servos are mirror image of each other.
-        //clawOffset = Range.clip(clawOffset, -0.5, 0.5);
-        //robot.leftClaw.setPosition(robot.MID_SERVO + clawOffset);
-        //robot.rightClaw.setPosition(robot.MID_SERVO - clawOffset);
-
-        // Use gamepad buttons to move the arm up (Y) and down (A)
-        //if (gamepad1.y)
-        //    robot.leftArm.setPower(robot.ARM_UP_POWER);
-        //else if (gamepad1.a)
-        //    robot.leftArm.setPower(robot.ARM_DOWN_POWER);
-        //else
-        //    robot.leftArm.setPower(0.0);
-
-        // Send telemetry message to signify robot running;
-        //telemetry.addData("claw",  "Offset = %.2f", clawOffset);
         telemetry.addData("drive",  "%.2f", drive);
         telemetry.addData("turn", "%.2f", turn);
     }
@@ -123,5 +102,6 @@ public class DriveTankAndClimb extends OpMode{
      */
     @Override
     public void stop() {
+        telemetry.addData("status","done");
     }
 }
