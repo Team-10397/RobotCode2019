@@ -31,6 +31,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -38,6 +39,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Motor channel:  Left  drive motor:        "left_drive"
  * Motor channel:  Right drive motor:        "right_drive"
  * Motor channel:  Manipulator drive motor:  "climb_motor"
+ * Motor channel:  Left Arm drive motor:     "left_arm"
+ * Motor channel:  Right Arm drive motor:    "right_arm"
  */
 
 public class HardwareRobot
@@ -45,8 +48,11 @@ public class HardwareRobot
     /* Public OpMode members. */
     public DcMotor  leftDrive   = null;  //initalizes the drive motors
     public DcMotor  rightDrive  = null;
-    public DcMotor  climbMotor   = null; //initalizes the climb motor
-
+    public DcMotor  climbMotor  = null;  //initalizes the climb motor
+    public DcMotor  leftArm     = null;
+    public DcMotor  rightArm    = null;
+    public Servo    leftClaw    = null;
+    public Servo    rightClaw   = null;
 
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
@@ -66,6 +72,10 @@ public class HardwareRobot
         leftDrive  = hwMap.get(DcMotor.class, "left_drive");
         rightDrive = hwMap.get(DcMotor.class, "right_drive");
         climbMotor = hwMap.get(DcMotor.class, "climb_motor");
+        leftArm = hwMap.get(DcMotor.class, "left_arm");
+        rightArm = hwMap.get(DcMotor.class, "right_arm");
+        leftClaw  = hwMap.get(Servo.class, "left_claw");
+        rightClaw = hwMap.get(Servo.class, "right_claw");
 
         leftDrive.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         rightDrive.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
