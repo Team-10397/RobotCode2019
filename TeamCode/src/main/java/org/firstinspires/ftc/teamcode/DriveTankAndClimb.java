@@ -55,6 +55,8 @@ public class DriveTankAndClimb extends OpMode{
 
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Say", "Hello Driver");    //
+
+        iceRobot.resetEncoder();
     }
 
     /*
@@ -81,20 +83,35 @@ public class DriveTankAndClimb extends OpMode{
         double upClimb;
         double downClimb;
         double maxClimbPower = 100 /* percent */ /100.0; // cool formatting ay?
+        int maxclimb= 100;
+        int minclimb = -3000;
+
+        int climbpos = iceRobot.climbMotor.getCurrentPosition();
 
         // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
         drive = -gamepad1.left_stick_y;
-        turn = -gamepad1.right_stick_x;
+        turn = gamepad1.right_stick_x* 0.5;
         upClimb = gamepad1.left_trigger;
         downClimb = gamepad1.right_trigger;
 
 
         iceRobot.leftDrive.setPower(Range.clip(drive+turn,-1.0,1.0));
         iceRobot.rightDrive.setPower(Range.clip(drive-turn,-1.0,1.0));
-        iceRobot.climbMotor.setPower((upClimb-downClimb)*maxClimbPower);
+
+        if (climbpos > maxclimb || climbpos < minclimb) {
+            iceRobot.climbMotor.setPower(0);
+        }
+        else {
+            iceRobot.climbMotor.setPower((upClimb-downClimb)*maxClimbPower);
+        }
+
+        if (gamepad1.x){
+            iceRobot.resetEncoder();
+        }
 
         telemetry.addData("drive",  "%.2f", drive);
         telemetry.addData("turn", "%.2f", turn);
+        //telemetry.addData("turn", "%g", climbpos);
     }
 
     /*

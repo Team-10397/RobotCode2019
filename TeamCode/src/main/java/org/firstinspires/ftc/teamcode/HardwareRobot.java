@@ -81,5 +81,10 @@ public class HardwareRobot
         rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         climbMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
+
+    public void resetEncoder () {
+        climbMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        climbMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
  }
 
