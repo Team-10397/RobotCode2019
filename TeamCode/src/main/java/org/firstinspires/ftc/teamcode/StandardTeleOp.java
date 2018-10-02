@@ -98,11 +98,15 @@ public class StandardTeleOp extends OpMode{
         iceRobot.leftDrive.setPower(Range.clip(drive+turn,-1.0,1.0));
         iceRobot.rightDrive.setPower(Range.clip(drive-turn,-1.0,1.0));
 
-        if (climbpos > maxclimb || climbpos < minclimb) {
-            iceRobot.climbMotor.setPower(0);
+        double input = (upClimb-downClimb)*maxClimbPower;
+        if (climbpos > maxclimb) {
+            iceRobot.climbMotor.setPower(Range.clip(input,-1,0)); // if too low, only lets you go up.
+        }
+        else if (climbpos < minclimb) {
+            iceRobot.climbMotor.setPower(Range.clip(input,0,1)); // if too high, only lets you o down.
         }
         else {
-            iceRobot.climbMotor.setPower((upClimb-downClimb)*maxClimbPower);
+            iceRobot.climbMotor.setPower(input);
         }
 
         if (gamepad1.x){
