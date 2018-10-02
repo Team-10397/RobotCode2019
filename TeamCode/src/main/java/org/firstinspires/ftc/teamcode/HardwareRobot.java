@@ -32,6 +32,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.TypeConversion.*;
 
 /**
  * Robot init routine:
@@ -46,6 +47,13 @@ public class HardwareRobot
     public DcMotor  leftDrive   = null;  //initalizes the drive motors
     public DcMotor  rightDrive  = null;
     public DcMotor  climbMotor   = null; //initalizes the climb motor
+
+    // variables
+    public int ticks_per_revolution;
+    public double wheel_diameter;
+    public double ticks_per_inch = ticks_per_revolution/wheel_diameter;
+
+
 
 
     /* local OpMode members. */
@@ -85,6 +93,31 @@ public class HardwareRobot
     public void resetEncoder () {
         climbMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         climbMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        rightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
+
+    public void drive (double inches, double speed) {
+        double ticks_to_go = (int) inches * ticks_per_inch;
+        resetEncoder();
+        while (leftDrive.getCurrentPosition()+rightDrive.getCurrentPosition() < inches*2){
+            if (speed > 0) {                    // if speed is given, uses that, if not uses proportinal control.
+                leftDrive.setPower(speed);
+                rightDrive.setPower(speed);
+            }
+            else {
+                double error = ticks_to_go - (leftDrive.getCurrentPosition() + rightDrive.getCurrentPosition()) / 2;
+                leftDrive.setPower(error);
+                rightDrive.setPower(error);
+            }
+        }
+        leftDrive.setPower(0);
+        rightDrive.setPower(0);
     }
  }
 
