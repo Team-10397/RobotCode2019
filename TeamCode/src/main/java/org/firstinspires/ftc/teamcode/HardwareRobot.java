@@ -29,6 +29,7 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -51,6 +52,11 @@ public class HardwareRobot
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
     private ElapsedTime period  = new ElapsedTime();
+
+    /* variables*/
+
+    public static final int maxpos = -3000;
+    public static final int minpos = 0;
 
     /* Constructor */
     public HardwareRobot(){
@@ -85,6 +91,18 @@ public class HardwareRobot
     public void resetEncoder () {
         climbMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         climbMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
+    public void moveTime(double speed, double turn){
+        rightDrive.setPower(speed+turn);
+        leftDrive.setPower(speed-turn);
+    }
+    public void stop() {
+        rightDrive.setPower(0);
+        leftDrive.setPower(0);
+    }
+    public void goup() {
+        climbMotor.setPower(-1);
     }
  }
 
