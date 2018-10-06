@@ -58,7 +58,7 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
  */
 
 @Autonomous(name="Pushbot: Auto Drive By Time", group="Pushbot")
-public class Go extends LinearOpMode {
+public class Go extends LinearOpMode { // TODO (andrew): I would suggest a better name. Go is not really descriptive. (hint: use SHIFT-F6 to refactor)
 
     /* Declare OpMode members. */
     HardwareRobot         robot   = new HardwareRobot();   // Use a Pushbot's hardware
