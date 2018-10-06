@@ -81,14 +81,27 @@ public class BasicAutonoOpMode extends LinearOpMode {
                     }
                     break;
                 case 1:
-                    iceRobot.moveTime(0,.5);
-                    sleep(400);
+                    iceRobot.moveTime(0,.25);
+                    sleep(100);
                     iceRobot.stop();
                     state += 1;
                 case 2:
-                    iceRobot.moveTime(-.5,0);
-                    sleep(500);
+                    iceRobot.climbMotor.setPower(1);
+                    if (iceRobot.climbMotor.getCurrentPosition() > -500){
+                        iceRobot.climbMotor.setPower(0);
+                        state += 1;
+                    }
+                case 4:
+                    iceRobot.moveTime(0,-.25);
+                    sleep(100);
+                    iceRobot.stop();
                     state += 1;
+                case 3:
+                    iceRobot.moveTime(-.5,0);
+                    sleep(1000);
+                    iceRobot.stop();
+                    state += 1;
+
             }
 
 
