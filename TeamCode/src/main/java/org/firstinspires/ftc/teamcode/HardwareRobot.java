@@ -101,8 +101,5 @@ public class HardwareRobot // TODO (andrew): doesn't really matter but maybe ren
         rightDrive.setPower(0);
         leftDrive.setPower(0);
     }
-    public void goup() { // TODO (andrew): rename goUp. Use camelCase.
-        climbMotor.setPower(-1);
-    }
  }
 
