@@ -81,23 +81,15 @@ public class BasicAutonoOpMode extends LinearOpMode {
                     }
                     break;
                 case 1:
-                    /*
-                    TODO: btw time is kinda unpredictable. I highly suggest trying to get either encoders and/or gyros on your robot.
-                    localization (finding location of robot) can be done with either two encoders or an encoder and a gyro.
-                    on our FRC 2018 robot we had two encoders and a gyro for redundancy... also sometimes it is better
-                    to have all three as some are better in certain use cases.
-                     */
+                    // TODO: get encoder wires.
                     iceRobot.moveTime(0,.25);
                     sleep(100);
                     iceRobot.stop();
                     state += 1;
                     break;
-                    /*
-                     TODO: It is nice you are using switches. However, I think you want a break after each case? I can't really tell.
-                     When state = 1, case 1, 2, 4, and 3 are called.
-                     Also, look up Enums (https://docs.oracle.com/javase/tutorial/java/javaOO/enum.html). They are much more descriptive
-                     and better than integers for this use case.
-                      */
+                    //
+                //
+                // TODO: use enums
                 case 2:
                     iceRobot.climbMotor.setPower(1);
                     if (iceRobot.climbMotor.getCurrentPosition() > -500){
