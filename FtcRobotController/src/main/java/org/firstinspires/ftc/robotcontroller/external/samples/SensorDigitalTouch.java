@@ -34,7 +34,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 
-/*
+/**
  * This is an example LinearOpMode that shows how to use
  * a REV Robotics Touch Sensor.
  *
