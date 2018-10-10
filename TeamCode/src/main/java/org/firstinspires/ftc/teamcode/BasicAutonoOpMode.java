@@ -52,7 +52,7 @@ import com.qualcomm.robotcore.util.Range;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Basic OpMode m", group="Autonomous")
+@Autonomous(name="Autonomous Crater", group="Autonomous")
 public class BasicAutonoOpMode extends LinearOpMode {
 
     // Declare OpMode members.
@@ -83,27 +83,27 @@ public class BasicAutonoOpMode extends LinearOpMode {
                 case 1:
                     // TODO: get encoder wires.
                     iceRobot.moveTime(0,.25);
-                    sleep(100);
+                    sleep(750);
                     iceRobot.stop();
                     state += 1;
                     break;
-                    //
-                //
                 // TODO: use enums
                 case 2:
                     iceRobot.climbMotor.setPower(1);
-                    if (iceRobot.climbMotor.getCurrentPosition() > -500){
+                    double start_time = runtime.milliseconds();
+                    if (iceRobot.climbMotor.getCurrentPosition() > -1000 || runtime.milliseconds() - start_time > 250){
                         iceRobot.climbMotor.setPower(0);
+                        sleep(1000);
                         state += 1;
-                        break;
                     }
-                case 4:
+                    break;
+                case 3:
                     iceRobot.moveTime(0,-.25);
-                    sleep(100);
+                    sleep(750);
                     iceRobot.stop();
                     state += 1;
                     break;
-                case 3:
+                case 4:
                     iceRobot.moveTime(-.5,0);
                     sleep(1000);
                     iceRobot.stop();
