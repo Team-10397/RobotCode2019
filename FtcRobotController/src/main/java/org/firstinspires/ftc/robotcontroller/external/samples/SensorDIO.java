@@ -35,7 +35,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DeviceInterfaceModule;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 
-/*
+/**
  * This is an example LinearOpMode that shows how to use the digital inputs and outputs on the
  * the Modern Robotics Device Interface Module.  In addition, it shows how to use the Red and Blue LED
  *

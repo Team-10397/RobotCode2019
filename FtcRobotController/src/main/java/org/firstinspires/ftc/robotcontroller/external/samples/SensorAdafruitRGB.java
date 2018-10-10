@@ -40,7 +40,7 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DeviceInterfaceModule;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 
-/*
+/**
  *
  * This is an example LinearOpMode that shows how to use
  * the Adafruit RGB Sensor.  It assumes that the I2C
