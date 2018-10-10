@@ -41,7 +41,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Motor channel:  Manipulator drive motor:  "climb_motor"
  */
 
-public class HardwareRobot
+public class HardwareRobot // TODO (andrew): doesn't really matter but maybe rename this IceRobot / HardwareIceBot? It is really a personal preference.
 {
     /* Public OpMode members. */
     public DcMotor  leftDrive   = null;  //initalizes the drive motors
@@ -100,9 +100,6 @@ public class HardwareRobot
     public void stop() {
         rightDrive.setPower(0);
         leftDrive.setPower(0);
-    }
-    public void goup() {
-        climbMotor.setPower(-1);
     }
  }
 
