@@ -58,6 +58,13 @@ public class HardwareRobot // TODO (andrew): doesn't really matter but maybe ren
     public static final int maxpos = -3000;
     public static final int minpos = 0;
 
+    public static final double turn_diameter = 15.6; // inches
+    public static final double wheel_diameter = 4;
+    public static final double encoder_ticks_per_revolution = 1120;
+    public static final double ticks_per_degree =
+            (turn_diameter/wheel_diameter)*
+            (encoder_ticks_per_revolution/360);
+
     /* Constructor */
     public HardwareRobot(){
 
@@ -100,6 +107,24 @@ public class HardwareRobot // TODO (andrew): doesn't really matter but maybe ren
     public void stop() {
         rightDrive.setPower(0);
         leftDrive.setPower(0);
+    }
+    public void encoderTurn(double degrees){
+
+        int ticks = (int) (ticks_per_degree * degrees);
+        leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftDrive.setTargetPosition(ticks);
+        rightDrive.setTargetPosition(ticks);
+        while(leftDrive.isBusy() && rightDrive.isBusy()) {
+
+        }
+        leftDrive.setPower(0);
+        rightDrive.setPower(0);
+        leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
     }
  }
 

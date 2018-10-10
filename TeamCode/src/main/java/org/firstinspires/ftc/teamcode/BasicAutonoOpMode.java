@@ -59,7 +59,7 @@ public class BasicAutonoOpMode extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
     HardwareRobot iceRobot = new HardwareRobot();
-    int state = 0;
+    int state = 0; // TODO: use enums
 
     @Override
 
@@ -81,13 +81,10 @@ public class BasicAutonoOpMode extends LinearOpMode {
                     }
                     break;
                 case 1:
-                    // TODO: get encoder wires.
-                    iceRobot.moveTime(0,.25);
-                    sleep(750);
-                    iceRobot.stop();
+                    iceRobot.encoderTurn(-40);
                     state += 1;
                     break;
-                // TODO: use enums
+
                 case 2:
                     iceRobot.climbMotor.setPower(1);
                     double start_time = runtime.milliseconds();
@@ -98,9 +95,7 @@ public class BasicAutonoOpMode extends LinearOpMode {
                     }
                     break;
                 case 3:
-                    iceRobot.moveTime(0,-.25);
-                    sleep(750);
-                    iceRobot.stop();
+                    iceRobot.encoderTurn(30);
                     state += 1;
                     break;
                 case 4:
