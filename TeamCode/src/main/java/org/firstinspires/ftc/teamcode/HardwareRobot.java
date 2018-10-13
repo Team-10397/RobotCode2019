@@ -64,7 +64,8 @@ public class HardwareRobot // TODO (andrew): doesn't really matter but maybe ren
     public static final double ticks_per_degree =
             (turn_diameter/wheel_diameter)*
             (encoder_ticks_per_revolution/360);
-    public static final double encoder_ticks_per_inch = wheel_diameter * Math.PI *encoder_ticks_per_revolution;
+    public static final double encoder_ticks_per_inch =
+            encoder_ticks_per_revolution/(wheel_diameter * Math.PI);
 
     /* Constructor */
     public HardwareRobot(){
