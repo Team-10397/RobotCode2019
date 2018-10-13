@@ -30,13 +30,8 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
 
 /**
@@ -52,8 +47,8 @@ import com.qualcomm.robotcore.util.Range;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Autonomous Crater", group="Autonomous")
-public class BasicAutonoOpMode extends LinearOpMode {
+@Autonomous(name="Autonomous Depot", group="Autonomous")
+public class AutoStartNearDepot extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
@@ -99,6 +94,14 @@ public class BasicAutonoOpMode extends LinearOpMode {
                     state += 1;
                     break;
                 case 4:
+                    iceRobot.encoderMove(-10);
+                    state += 1;
+                    break;
+                case 5:
+                    iceRobot.encoderTurn(90);
+                    state += 1;
+                    break;
+                case 6:
                     iceRobot.moveTime(-.5,0);
                     sleep(1000);
                     iceRobot.stop();
