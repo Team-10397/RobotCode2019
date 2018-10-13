@@ -42,6 +42,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class HardwareRobot
 {
+
+    // Hello! 
+    
     /* Public OpMode members. */
     public DcMotor  leftDrive   = null;  //initalizes the drive motors
     public DcMotor  rightDrive  = null;
