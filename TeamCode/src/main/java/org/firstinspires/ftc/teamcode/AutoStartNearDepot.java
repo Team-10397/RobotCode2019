@@ -67,50 +67,50 @@ public class AutoStartNearDepot extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()){
-            switch (state){
-                case 0:
-                    iceRobot.climbMotor.setPower(-1);
-                    if (iceRobot.climbMotor.getCurrentPosition() < -3000){
-                        iceRobot.climbMotor.setPower(0);
-                        state += 1;
-                    }
-                    break;
-                case 1:
-                    iceRobot.encoderTurn(-40);
-                    state += 1;
-                    break;
-
-                case 2:
-                    iceRobot.climbMotor.setPower(1);
-                    double start_time = runtime.milliseconds();
-                    if (iceRobot.climbMotor.getCurrentPosition() > -1000 || runtime.milliseconds() - start_time > 250){
-                        iceRobot.climbMotor.setPower(0);
-                        sleep(1000);
-                        state += 1;
-                    }
-                    break;
-                case 3:
-                    iceRobot.encoderTurn(30);
-                    state += 1;
-                    break;
-                case 4:
-                    iceRobot.encoderMove(-10);
-                    state += 1;
-                    break;
-                case 5:
-                    iceRobot.encoderTurn(90);
-                    state += 1;
-                    break;
-                case 6:
-                    iceRobot.moveTime(-.5,0);
-                    sleep(1000);
-                    iceRobot.stop();
-                    state += 1;
-                    break;
-            }
-
-
-        }
+//            switch (state){
+//                case 0:
+//                    iceRobot.climbMotor.setPower(-1);
+//                    if (iceRobot.climbMotor.getCurrentPosition() < -3000){
+//                        iceRobot.climbMotor.setPower(0);
+//                        state += 1;
+//                    }
+//                    break;
+//                case 1:
+//                    iceRobot.encoderTurn(-40);
+//                    state += 1;
+//                    break;
+//
+//                case 2:
+//                    iceRobot.climbMotor.setPower(1);
+//                    double start_time = runtime.milliseconds();
+//                    if (iceRobot.climbMotor.getCurrentPosition() > -1000 || runtime.milliseconds() - start_time > 250){
+//                        iceRobot.climbMotor.setPower(0);
+//                        sleep(1000);
+//                        state += 1;
+//                    }
+//                    break;
+//                case 3:
+//                    iceRobot.encoderTurn(30);
+//                    state += 1;
+//                    break;
+//                case 4:
+//                    iceRobot.encoderMove(-10);
+//                    state += 1;
+//                    break;
+//                case 5:
+//                    iceRobot.encoderTurn(90);
+//                    state += 1;
+//                    break;
+//                case 6:
+//                    iceRobot.moveTime(-.5,0);
+//                    sleep(1000);
+//                    iceRobot.stop();
+//                    state += 1;
+//                    break;
+//            }
+//
+//
+          }
 
 
 
