@@ -115,34 +115,38 @@ public class HardwareRobot // TODO (andrew): doesn't really matter but maybe ren
         int ticks = (int) (ticks_per_degree * degrees);
         leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        leftDrive.setTargetPosition(ticks);
-        rightDrive.setTargetPosition(-ticks);
-        while(leftDrive.isBusy() && rightDrive.isBusy()) {
-
+        leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        if (degrees > 0){
+            rightDrive.setPower(-.25);
+            leftDrive.setPower(.25);
+        }else {
+            rightDrive.setPower(.25);
+            leftDrive.setPower(-.25);
+        }
+        while(Math.abs(leftDrive.getCurrentPosition()) < ticks) {
         }
         leftDrive.setPower(0);
         rightDrive.setPower(0);
-        leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     public void encoderMove(double inches){
         int ticks = (int) (encoder_ticks_per_inch * inches);
         leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        leftDrive.setTargetPosition(ticks);
-        rightDrive.setTargetPosition(ticks);
-        while(leftDrive.isBusy() && rightDrive.isBusy()) {
-
+        leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        if (inches > 0){
+            rightDrive.setPower(.25);
+            leftDrive.setPower(.25);
+        }else {
+            rightDrive.setPower(-.25);
+            leftDrive.setPower(-.25);
+        }
+        while(Math.abs(leftDrive.getCurrentPosition())<ticks) {
         }
         leftDrive.setPower(0);
         rightDrive.setPower(0);
-        leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
  }
 
