@@ -53,6 +53,20 @@ public class HardwareRobot // TODO (andrew): doesn't really matter but maybe ren
     HardwareMap hwMap           =  null;
     private ElapsedTime period  = new ElapsedTime();
 
+    /* variables*/
+
+    public static final int maxpos = -3000;
+    public static final int minpos = 0;
+
+    public static final double turn_diameter = 15.6; // inches
+    public static final double wheel_diameter = 4;   // inches
+    public static final double encoder_ticks_per_revolution = 1120;
+    public static final double ticks_per_degree =
+            (turn_diameter/wheel_diameter)*
+            (encoder_ticks_per_revolution/360);
+    public static final double encoder_ticks_per_inch =
+            encoder_ticks_per_revolution/(wheel_diameter * Math.PI);
+
     /* Constructor */
     public HardwareRobot(){
 
@@ -78,8 +92,13 @@ public class HardwareRobot // TODO (andrew): doesn't really matter but maybe ren
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
-        leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        climbMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
+    public void resetEncoder () {
+        climbMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         climbMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
@@ -87,13 +106,47 @@ public class HardwareRobot // TODO (andrew): doesn't really matter but maybe ren
         rightDrive.setPower(speed+turn);
         leftDrive.setPower(speed-turn);
     }
-    public void resetEncoder(){
-        climbMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        climbMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-    }
     public void stop() {
         rightDrive.setPower(0);
         leftDrive.setPower(0);
+    }
+    public void encoderTurn(double degrees){
+
+        int ticks = (int) (ticks_per_degree * degrees);
+        leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        if (degrees > 0){
+            rightDrive.setPower(-.25);
+            leftDrive.setPower(.25);
+        }else {
+            rightDrive.setPower(.25);
+            leftDrive.setPower(-.25);
+        }
+        while(Math.abs(leftDrive.getCurrentPosition()) < ticks) {
+        }
+        leftDrive.setPower(0);
+        rightDrive.setPower(0);
+    }
+
+    public void encoderMove(double inches){
+        int ticks = (int) (encoder_ticks_per_inch * inches);
+        leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        if (inches > 0){
+            rightDrive.setPower(.25);
+            leftDrive.setPower(.25);
+        }else {
+            rightDrive.setPower(-.25);
+            leftDrive.setPower(-.25);
+        }
+        while(Math.abs(leftDrive.getCurrentPosition())<ticks) {
+        }
+        leftDrive.setPower(0);
+        rightDrive.setPower(0);
     }
  }
 

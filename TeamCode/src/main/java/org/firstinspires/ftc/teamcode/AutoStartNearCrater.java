@@ -84,6 +84,7 @@ public class AutoStartNearCrater extends LinearOpMode {
                     iceRobot.moveTime(0,0.5);
                     sleep(750);
                     iceRobot.stop();
+                    iceRobot.encoderTurn(-40);
                     state += 1;
                     break;
 
@@ -100,6 +101,7 @@ public class AutoStartNearCrater extends LinearOpMode {
                     iceRobot.moveTime(0,-0.5);
                     sleep(750);
                     iceRobot.stop();
+                    iceRobot.encoderTurn(40);
                     state += 1;
                     break;
                 case 4:
