@@ -85,6 +85,7 @@ public class StandardTeleOp extends OpMode{
         double maxClimbPower = 100 /* percent */ /100.0; // cool formatting ay?
         int maxclimb= 100;
         int minclimb = -3000;
+        boolean clawClosed = false;
 
         int climbpos = iceRobot.climbMotor.getCurrentPosition();
 
@@ -111,6 +112,15 @@ public class StandardTeleOp extends OpMode{
 
         if (gamepad1.x){
             iceRobot.resetEncoder();
+        }
+
+        if (gamepad1.a){
+            clawClosed = !clawClosed;
+            if (clawClosed){
+                iceRobot.rightClaw.setPosition(iceRobot.SERVO_CLAW_CLOSED);
+            }else {
+                iceRobot.rightClaw.setPosition(iceRobot.SERVO_CLAW_OPEN);
+            }
         }
 
         telemetry.addData("drive",  "%.2f", drive);

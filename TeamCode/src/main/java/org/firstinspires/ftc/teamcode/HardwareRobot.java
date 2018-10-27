@@ -32,6 +32,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -48,6 +49,7 @@ public class HardwareRobot // TODO (andrew): doesn't really matter but maybe ren
     public DcMotor  rightDrive  = null;
     public DcMotor  climbMotor   = null; //initalizes the climb motor
 
+    public Servo    rightClaw   = null; //initializes servo claw
 
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
@@ -57,6 +59,11 @@ public class HardwareRobot // TODO (andrew): doesn't really matter but maybe ren
 
     public static final int maxpos = -3000;
     public static final int minpos = 0;
+
+    public static final double SERVO_CENTER = 0.5;
+    public static final double SERVO_CLAW_CLOSED = 0;
+    public static final double SERVO_CLAW_OPEN = 1;
+
 
     public static final double turn_diameter = 15.6; // inches
     public static final double wheel_diameter = 4;   // inches
@@ -82,6 +89,11 @@ public class HardwareRobot // TODO (andrew): doesn't really matter but maybe ren
         rightDrive = hwMap.get(DcMotor.class, "right_drive");
         climbMotor = hwMap.get(DcMotor.class, "climb_motor");
 
+        //define and initillize Servose
+        rightClaw = hwMap.get(Servo.class, "right_claw");
+
+        rightClaw.setPosition(SERVO_CENTER);
+
         leftDrive.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         rightDrive.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
 
@@ -89,6 +101,7 @@ public class HardwareRobot // TODO (andrew): doesn't really matter but maybe ren
         leftDrive.setPower(0);
         rightDrive.setPower(0);
         climbMotor.setPower(0);
+
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
