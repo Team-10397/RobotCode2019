@@ -1,3 +1,7 @@
+motors:
 0 left motor
 1 right motor
 2 climb motor
+
+servos:
+0 right claw
