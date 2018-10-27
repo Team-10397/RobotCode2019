@@ -85,8 +85,6 @@ public class StandardTeleOp extends OpMode{
         double maxClimbPower = 100 /* percent */ /100.0; // cool formatting ay?
         int maxclimb= 100;
         int minclimb = -3000;
-        boolean clawClosed = false;
-
         int climbpos = iceRobot.climbMotor.getCurrentPosition();
 
         // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
