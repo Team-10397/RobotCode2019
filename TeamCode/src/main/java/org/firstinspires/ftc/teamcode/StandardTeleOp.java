@@ -115,13 +115,12 @@ public class StandardTeleOp extends OpMode{
         }
 
         if (gamepad1.a){
-            clawClosed = !clawClosed;
-            if (clawClosed){
-                iceRobot.rightClaw.setPosition(iceRobot.SERVO_CLAW_CLOSED);
-            }else {
-                iceRobot.rightClaw.setPosition(iceRobot.SERVO_CLAW_OPEN);
-            }
+            iceRobot.rightClaw.setPosition(iceRobot.SERVO_CLAW_CLOSED);
         }
+        if (gamepad1.b) {
+            iceRobot.rightClaw.setPosition(iceRobot.SERVO_CLAW_OPEN);
+        }
+
 
         telemetry.addData("drive",  "%.2f", drive);
         telemetry.addData("turn", "%.2f", turn);
