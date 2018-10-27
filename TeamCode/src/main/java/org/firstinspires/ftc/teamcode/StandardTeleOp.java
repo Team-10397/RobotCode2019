@@ -90,7 +90,7 @@ public class StandardTeleOp extends OpMode{
         int climbpos = iceRobot.climbMotor.getCurrentPosition();
 
         // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
-        drive = -gamepad1.left_stick_y;
+        drive = -gamepad1.left_stick_y* 0.5;
         turn = gamepad1.right_stick_x* 0.5;
         upClimb = gamepad1.left_trigger;
         downClimb = gamepad1.right_trigger;
