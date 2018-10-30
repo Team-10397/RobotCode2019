@@ -30,8 +30,13 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
 
 
 /**
@@ -76,35 +81,35 @@ public class AutoStartNearDepot extends LinearOpMode {
                     }
                     break;
                 case 1:
-                    iceRobot.encoderTurn(-40);
+                    iceRobot.moveTime(0,0.5);
+                    sleep(750);
+                    iceRobot.stop();
                     state += 1;
                     break;
 
                 case 2:
                     iceRobot.climbMotor.setPower(1);
                     double start_time = runtime.milliseconds();
-                    if (iceRobot.climbMotor.getCurrentPosition() > -1000 || runtime.milliseconds() - start_time > 250){
+                    if (iceRobot.climbMotor.getCurrentPosition() > -1000 || runtime.milliseconds() - start_time > 750){
                         iceRobot.climbMotor.setPower(0);
                         sleep(1000);
                         state += 1;
                     }
                     break;
                 case 3:
-                    iceRobot.encoderTurn(30);
-                    state += 1;
-                    break;
-                case 4:
-                    iceRobot.encoderMove(-10);
-                    state += 1;
-                    break;
-                case 5:
-                    iceRobot.encoderTurn(90);
-                    state += 1;
-                    break;
-                case 6:
-                    iceRobot.moveTime(-.5,0);
-                    sleep(1000);
+                    iceRobot.moveTime(0,-0.5);
+                    sleep(750);
                     iceRobot.stop();
+                    state += 1;
+                    break;
+                case 4: // backs into the depot
+                    iceRobot.moveTime(-.15,0);
+                    sleep(2000);
+                    iceRobot.stop();
+                    state += 1;
+                    break;
+                case 5: // drops the team marker
+                    iceRobot.rightClaw.setPosition(iceRobot.SERVO_CENTER);
                     state += 1;
                     break;
             }

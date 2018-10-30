@@ -93,7 +93,7 @@ public class HardwareRobot // TODO (andrew): doesn't really matter but maybe ren
         //define and initillize Servose
         rightClaw = hwMap.get(Servo.class, "right_claw");
 
-        rightClaw.setPosition(SERVO_CENTER);
+        rightClaw.setPosition(SERVO_CLAW_CLOSED);
 
         leftDrive.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
         rightDrive.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
