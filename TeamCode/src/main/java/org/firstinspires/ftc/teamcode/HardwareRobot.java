@@ -62,8 +62,8 @@ public class HardwareRobot // TODO (andrew): doesn't really matter but maybe ren
     public static final int minpos = 0;
 
     public static final double SERVO_CENTER = 0.5;
-    public static final double SERVO_CLAW_CLOSED = 0;
-    public static final double SERVO_CLAW_OPEN = 1;
+    public static final double SERVO_CLAW_CLOSED = 1;
+    public static final double SERVO_CLAW_OPEN = 0;
 
 
     public static final double turn_diameter = 15.6; // inches

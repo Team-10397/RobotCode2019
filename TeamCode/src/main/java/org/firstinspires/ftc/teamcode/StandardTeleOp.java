@@ -114,10 +114,10 @@ public class StandardTeleOp extends OpMode{
             iceRobot.resetEncoder();
         }
 
-        if (gamepad1.a){
+        if (gamepad1.b){
             iceRobot.rightClaw.setPosition(iceRobot.SERVO_CENTER);
         }
-        if (gamepad1.b) {
+        if (gamepad1.a) {
             iceRobot.rightClaw.setPosition(iceRobot.SERVO_CLAW_OPEN);
         }
 
