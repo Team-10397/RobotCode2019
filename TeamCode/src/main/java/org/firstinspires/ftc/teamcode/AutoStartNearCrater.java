@@ -52,14 +52,13 @@ import com.qualcomm.robotcore.util.Range;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Autonomous Crater ", group="Autonomous")
+@Autonomous(name="Autonomous Crater", group="Autonomous")
 public class AutoStartNearCrater extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
 
     HardwareRobot iceRobot = new HardwareRobot();
-    int state = 0; // TODO: use enums
 
     @Override
 
@@ -71,51 +70,35 @@ public class AutoStartNearCrater extends LinearOpMode {
 
         waitForStart();
 
-        while (opModeIsActive()){
-            switch (state){
-                case 0:
-                    iceRobot.climbMotor.setPower(-1);
-                    if (iceRobot.climbMotor.getCurrentPosition() < -3000){
-                        iceRobot.climbMotor.setPower(0);
-                        state += 1;
-                    }
-                    break;
-                case 1:
-                    iceRobot.moveTime(0,0.5);
-                    sleep(750);
-                    iceRobot.stop();
-                    state += 1;
-                    break;
-
-                case 2:
-                    iceRobot.climbMotor.setPower(1);
-                    double start_time = runtime.milliseconds();
-                    if (iceRobot.climbMotor.getCurrentPosition() > -1000 || runtime.milliseconds() - start_time > 750){
-                        iceRobot.climbMotor.setPower(0);
-                        sleep(1000);
-                        state += 1;
-                    }
-                    break;
-                case 3:
-                    iceRobot.moveTime(0,-0.5);
-                    sleep(750);
-                    iceRobot.stop();
-                    state += 1;
-                    break;
-                case 4: //backs into the crater
-                    iceRobot.moveTime(-.15,0);
-                    sleep(2000);
-                    iceRobot.stop();
-                    state += 1;
-                    break;
-            }
-
-
+        while (opModeIsActive() && iceRobot.climbMotor.getCurrentPosition() > -3000)
+        {
+            iceRobot.climbMotor.setPower(-1);
         }
 
+        iceRobot.climbMotor.setPower(0);
 
+        iceRobot.moveTime(0,0.5);
 
+        sleep(750);
 
+        iceRobot.stop();
 
+        double start_time = runtime.milliseconds();
+
+        while (iceRobot.climbMotor.getCurrentPosition() < -1000 && runtime.milliseconds() - start_time < 750)
+        {
+            iceRobot.climbMotor.setPower(1);
+        }
+
+        iceRobot.climbMotor.setPower(0);
+        sleep(1000);
+
+        iceRobot.moveTime(0,-0.5);
+        sleep(750);
+        iceRobot.stop();
+
+        iceRobot.moveTime(-.15,0);
+        sleep(2000);
+        iceRobot.stop();
     }
 }
