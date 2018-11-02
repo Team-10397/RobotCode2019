@@ -29,8 +29,11 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -40,7 +43,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Motor channel:  Manipulator drive motor:  "climb_motor"
  */
 
-public class HardwareRobot
+public class HardwareRobot // TODO (andrew): doesn't really matter but maybe rename this IceRobot / HardwareIceBot? It is really a personal preference.
 {
 
     // Hello! 
@@ -50,10 +53,30 @@ public class HardwareRobot
     public DcMotor  rightDrive  = null;
     public DcMotor  climbMotor   = null; //initalizes the climb motor
 
+    public Servo    rightClaw   = null; //initializes servo claw
 
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
     private ElapsedTime period  = new ElapsedTime();
+
+    /* variables*/
+
+    public static final int maxpos = -3000;
+    public static final int minpos = 0;
+
+    public static final double SERVO_CENTER = 0.5;
+    public static final double SERVO_CLAW_CLOSED = 1;
+    public static final double SERVO_CLAW_OPEN = 0;
+
+
+    public static final double turn_diameter = 15.6; // inches
+    public static final double wheel_diameter = 4;   // inches
+    public static final double encoder_ticks_per_revolution = 1120;
+    public static final double ticks_per_degree =
+            (turn_diameter/wheel_diameter)*
+            (encoder_ticks_per_revolution/360);
+    public static final double encoder_ticks_per_inch =
+            encoder_ticks_per_revolution/(wheel_diameter * Math.PI);
 
     /* Constructor */
     public HardwareRobot(){
@@ -70,13 +93,20 @@ public class HardwareRobot
         rightDrive = hwMap.get(DcMotor.class, "right_drive");
         climbMotor = hwMap.get(DcMotor.class, "climb_motor");
 
-        leftDrive.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
-        rightDrive.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
+        //define and initillize Servose
+        rightClaw = hwMap.get(Servo.class, "right_claw");
+
+        rightClaw.setPosition(SERVO_CLAW_CLOSED);
+
+        leftDrive.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
+        rightDrive.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
+        climbMotor.setDirection(DcMotor.Direction.REVERSE);
 
         // Set all motors to zero power
         leftDrive.setPower(0);
         rightDrive.setPower(0);
         climbMotor.setPower(0);
+
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
@@ -88,6 +118,53 @@ public class HardwareRobot
     public void resetEncoder () {
         climbMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         climbMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
+    public void moveTime(double speed, double turn){
+        rightDrive.setPower(speed+turn);
+        leftDrive.setPower(speed-turn);
+    }
+    public void stop() {
+        rightDrive.setPower(0);
+        leftDrive.setPower(0);
+    }
+    public void encoderTurn(double degrees){
+
+        int ticks = (int) (ticks_per_degree * degrees);
+        leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        if (degrees > 0){
+            rightDrive.setPower(-.25);
+            leftDrive.setPower(.25);
+        }else {
+            rightDrive.setPower(.25);
+            leftDrive.setPower(-.25);
+        }
+        while(Math.abs(leftDrive.getCurrentPosition()) < ticks) {
+        }
+        leftDrive.setPower(0);
+        rightDrive.setPower(0);
+    }
+
+    public void encoderMove(double inches){
+        int ticks = (int) (encoder_ticks_per_inch * inches);
+        leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        if (inches > 0){
+            rightDrive.setPower(.25);
+            leftDrive.setPower(.25);
+        }else {
+            rightDrive.setPower(-.25);
+            leftDrive.setPower(-.25);
+        }
+        while(Math.abs(leftDrive.getCurrentPosition())<ticks) {
+        }
+        leftDrive.setPower(0);
+        rightDrive.setPower(0);
     }
  }
 
