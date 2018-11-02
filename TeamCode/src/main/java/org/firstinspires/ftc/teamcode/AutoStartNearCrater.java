@@ -52,7 +52,7 @@ import com.qualcomm.robotcore.util.Range;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Autonomous Crater ", group="Autonomous")
+@Autonomous(name="Autonomous Crater", group="Autonomous")
 public class AutoStartNearCrater extends LinearOpMode {
 
     // Declare OpMode members.
@@ -100,11 +100,12 @@ public class AutoStartNearCrater extends LinearOpMode {
                     iceRobot.moveTime(0,-0.25);
                     sleep(500);
                     iceRobot.stop();
+                    sleep(1000);
                     state += 1;
                     break;
                 case 4: //backs into the crater
-                    iceRobot.moveTime(-.15,0);
-                    sleep(2000);
+                    iceRobot.moveTime(-.05,0);
+                    sleep(2500);
                     iceRobot.stop();
                     state += 1;
                     break;
