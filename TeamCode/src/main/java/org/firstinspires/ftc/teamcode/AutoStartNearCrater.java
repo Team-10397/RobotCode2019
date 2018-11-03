@@ -77,7 +77,7 @@ public class AutoStartNearCrater extends LinearOpMode {
                     iceRobot.climbMotor.setPower(-1);
                     if (iceRobot.climbMotor.getCurrentPosition() < -3000){
                         iceRobot.climbMotor.setPower(0);
-                        state += 1;
+                        state += 1;  //
                     }
                     break;
                 case 1:
