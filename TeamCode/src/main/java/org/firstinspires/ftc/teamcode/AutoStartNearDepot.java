@@ -116,7 +116,7 @@ public class AutoStartNearDepot extends LinearOpMode {
                     break;
                 case 6: // goes forward to ensure team marker iss dropped
                     iceRobot.moveTime(.2,0);
-                    sleep(500);
+                    sleep(1000);
                     iceRobot.stop();
                     state += 1;
                     break;
