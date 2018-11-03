@@ -73,21 +73,21 @@ public class AutoStartNearCrater extends LinearOpMode {
 
         while (opModeIsActive()){
             switch (state){
-                case 0:
+                case 0: // dropps from the lander
                     iceRobot.climbMotor.setPower(-1);
                     if (iceRobot.climbMotor.getCurrentPosition() < -3000){
                         iceRobot.climbMotor.setPower(0);
                         state += 1;
                     }
                     break;
-                case 1:
+                case 1: // turns to unlatch
                     iceRobot.moveTime(0,0.25);
                     sleep(500);
                     iceRobot.stop();
                     state += 1;
                     break;
 
-                case 2:
+                case 2: // lowers climbing arm
                     iceRobot.climbMotor.setPower(1);
                     double start_time = runtime.milliseconds();
                     if (iceRobot.climbMotor.getCurrentPosition() > -1000 || runtime.milliseconds() - start_time > 750){
@@ -96,7 +96,7 @@ public class AutoStartNearCrater extends LinearOpMode {
                         state += 1;
                     }
                     break;
-                case 3:
+                case 3: // turns to right itself
                     iceRobot.moveTime(0,-0.25);
                     sleep(500);
                     iceRobot.stop();
