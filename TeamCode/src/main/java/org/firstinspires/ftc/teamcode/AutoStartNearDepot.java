@@ -72,13 +72,13 @@ public class AutoStartNearDepot extends LinearOpMode {
                     iceRobot.climbMotor.setPower(-1);
                     if (iceRobot.climbMotor.getCurrentPosition() < -3000){
                         iceRobot.climbMotor.setPower(0);
-                        state += 1;
+                        state += 1; //sets the robot to a starting state.
                     }
                     break;
                 case 1:
                     iceRobot.encoderTurn(-40);
                     state += 1;
-                    break;
+                    break; //move to get off the lunar module
 
                 case 2:
                     iceRobot.climbMotor.setPower(1);
@@ -86,27 +86,27 @@ public class AutoStartNearDepot extends LinearOpMode {
                     if (iceRobot.climbMotor.getCurrentPosition() > -1000 || runtime.milliseconds() - start_time > 250){
                         iceRobot.climbMotor.setPower(0);
                         sleep(1000);
-                        state += 1;
+                        state += 1;  //climbs down from lunar module
                     }
                     break;
                 case 3:
                     iceRobot.encoderTurn(30);
                     state += 1;
-                    break;
+                    break;  //turns to the left 
                 case 4:
                     iceRobot.encoderMove(-10);
                     state += 1;
-                    break;
+                    break;  //moves the robot backwards
                 case 5:
                     iceRobot.encoderTurn(90);
                     state += 1;
                     break;
-                case 6:
+                case 6:  //turns to face backwards to the depot
                     iceRobot.moveTime(-.5,0);
                     sleep(1000);
                     iceRobot.stop();
                     state += 1;
-                    break;
+                    break;  //goes to the depot
             }
 
 
