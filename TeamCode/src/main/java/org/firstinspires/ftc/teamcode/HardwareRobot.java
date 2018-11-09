@@ -50,7 +50,13 @@ public class HardwareRobot // TODO (andrew): doesn't really matter but maybe ren
     public DcMotor  rightDrive  = null;
     public DcMotor  climbMotor   = null; //initalizes the climb motor
 
+    public DcMotor RightArmTurn = null; // initializes the arm motors
+    public DcMotor RightArmExtend = null;
+
     public Servo    rightClaw   = null; //initializes servo claw
+
+    public Servo rightGripper = null;
+    public Servo rightHand  = null;
 
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
@@ -90,11 +96,20 @@ public class HardwareRobot // TODO (andrew): doesn't really matter but maybe ren
         rightDrive = hwMap.get(DcMotor.class, "right_drive");
         climbMotor = hwMap.get(DcMotor.class, "climb_motor");
 
+        RightArmTurn = hwMap.get(DcMotor.class, "right_arm_turn");
+        RightArmExtend = hwMap.get(DcMotor.class, "right_arm_extend");
+
         //define and initillize Servose
         rightClaw = hwMap.get(Servo.class, "right_claw");
 
+        rightGripper = hwMap.get(Servo.class,"right_gripper");
+        rightHand = hwMap.get(Servo.class,"right_hand");
+
         rightClaw.setPosition(SERVO_CLAW_CLOSED);
 
+        rightGripper.setPosition(SERVO_CLAW_CLOSED);
+        rightHand.setPosition(SERVO_CLAW_CLOSED);
+        
         leftDrive.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
         rightDrive.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
         climbMotor.setDirection(DcMotor.Direction.REVERSE);
