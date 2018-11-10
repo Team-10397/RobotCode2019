@@ -121,6 +121,20 @@ public class StandardTeleOp extends OpMode{
             iceRobot.rightClaw.setPosition(iceRobot.SERVO_CLAW_CLOSED);
         }
 
+        if (gamepad1.y) {
+            turn = 0;
+            drive = 0;
+
+            double extendspeed = gamepad1.right_trigger-gamepad1.left_trigger;
+
+            iceRobot.RightArmExtend.setPower(extendspeed);
+
+            if (gamepad1.dpad_up) {
+                iceRobot.rightHand.setPosition();
+
+            }
+        }
+
 
         telemetry.addData("drive",  "%.2f", drive);
         telemetry.addData("turn", "%.2f", turn);
