@@ -37,7 +37,6 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.Range;
 
 @TeleOp(name="Robot: Teleop Drive", group="TeleOp")
-//@Disabled
 public class StandardTeleOp extends OpMode{
 
     /* Declare OpMode members. */
