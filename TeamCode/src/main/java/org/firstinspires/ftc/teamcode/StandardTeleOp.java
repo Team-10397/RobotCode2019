@@ -96,6 +96,14 @@ public class StandardTeleOp extends OpMode{
         downClimb = gamepad1.right_trigger;
 
 
+        if (gamepad1.left_stick_button) {
+            drive = drive * 0.25;
+        }
+        if (gamepad1.right_stick_button) {
+            turn = turn * 0.25;
+        }
+
+
         iceRobot.leftDrive.setPower(Range.clip(drive+turn,-1.0,1.0));
         iceRobot.rightDrive.setPower(Range.clip(drive-turn,-1.0,1.0));
 
@@ -125,14 +133,25 @@ public class StandardTeleOp extends OpMode{
             turn = 0;
             drive = 0;
 
-            double extendspeed = gamepad1.right_trigger-gamepad1.left_trigger;
+            double extendSpeed = gamepad1.right_trigger-gamepad1.left_trigger;
 
-            iceRobot.RightArmExtend.setPower(extendspeed);
+            iceRobot.RightArmExtend.setPower(extendSpeed);
 
             if (gamepad1.dpad_up) {
-                iceRobot.rightHand.setPosition();
-
+                iceRobot.rightHand.setPosition(iceRobot.SERVO_CLAW_CLOSED);
             }
+            if (gamepad1.dpad_down) {
+                iceRobot.rightHand.setPosition(iceRobot.SERVO_CLAW_OPEN);
+            }
+
+            if (gamepad1.left_bumper) {
+                iceRobot.rightGripper.setPosition(iceRobot.SERVO_CLAW_CLOSED);
+            }
+            if (gamepad1.right_bumper){
+                iceRobot.rightGripper.setPosition(iceRobot.SERVO_CLAW_OPEN);
+            }
+        } else {
+            iceRobot.RightArmExtend.setPower(0);
         }
 
 
