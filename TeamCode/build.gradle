@@ -14,3 +14,6 @@ dependencies {
     implementation project(':endercv')
     implementation project(':openCVLibrary3')
 }
+android {
+    compileSdkVersion 23
+}
