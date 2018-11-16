@@ -52,7 +52,7 @@ import com.qualcomm.robotcore.util.Range;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Autonomous Depot", group="Autonomous")
+@Autonomous(name="Autonomous Depot.", group="Autonomous")
 public class AutoStartNearDepot extends LinearOpMode {
 
     // Declare OpMode members.
