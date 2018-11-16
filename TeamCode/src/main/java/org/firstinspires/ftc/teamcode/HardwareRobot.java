@@ -48,15 +48,13 @@ public class HardwareRobot // TODO (andrew): doesn't really matter but maybe ren
     /* Public OpMode members. */
     public DcMotor  leftDrive   = null;  //initalizes the drive motors
     public DcMotor  rightDrive  = null;
-    public DcMotor  climbMotor   = null; //initalizes the climb motor
+    public DcMotor  climbMotor  = null;  //initalizes the climb motor
+    public DcMotor  pivotMotor  = null;
 
-    public DcMotor RightArmTurn = null; // initializes the arm motors
-    public DcMotor RightArmExtend = null;
 
-    public Servo    rightClaw   = null; //initializes servo claw
-
-    public Servo rightGripper = null;
-    public Servo rightHand  = null;
+    public Servo rightClaw   = null;  // initializes servo claw
+    public Servo rightGripper = null; // initializes servo gripper
+    public Servo rightHand  = null;   // init
 
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
@@ -95,13 +93,11 @@ public class HardwareRobot // TODO (andrew): doesn't really matter but maybe ren
         leftDrive  = hwMap.get(DcMotor.class, "left_drive");
         rightDrive = hwMap.get(DcMotor.class, "right_drive");
         climbMotor = hwMap.get(DcMotor.class, "climb_motor");
+        pivotMotor = hwMap.get(DcMotor.class,"right_pivot_motor");
 
-        RightArmTurn = hwMap.get(DcMotor.class, "right_arm_turn");
-        RightArmExtend = hwMap.get(DcMotor.class, "right_arm_extend");
 
-        //define and initillize Servose
+        //define and initialize Servos
         rightClaw = hwMap.get(Servo.class, "right_claw");
-
         rightGripper = hwMap.get(Servo.class,"right_gripper");
         rightHand = hwMap.get(Servo.class,"right_hand");
 

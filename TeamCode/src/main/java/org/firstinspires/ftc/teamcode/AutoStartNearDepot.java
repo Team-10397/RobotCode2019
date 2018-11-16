@@ -81,7 +81,7 @@ public class AutoStartNearDepot extends LinearOpMode {
                     }
                     break;
                 case 1: // turns to unlatch from lander
-                    iceRobot.moveTime(0,0.25);
+                    iceRobot.moveTime(0,-0.25);
                     sleep(500);
                     iceRobot.stop();
                     state += 1;
@@ -97,7 +97,7 @@ public class AutoStartNearDepot extends LinearOpMode {
                     }
                     break;
                 case 3: // turns to right itself
-                    iceRobot.moveTime(0,-0.25);
+                    iceRobot.moveTime(0,0.25);
                     sleep(600);
                     iceRobot.stop();
                     sleep(1000);

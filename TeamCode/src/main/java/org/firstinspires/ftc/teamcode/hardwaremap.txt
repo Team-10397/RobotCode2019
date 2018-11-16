@@ -1,20 +1,22 @@
 
-Hub 1:
+Hub 1 (9):
     motors:
-        0 left motor ("left_drive")
-        1 right motor ("right_drive")
-        2 climb motor ("climb_motor")
-        3 empty
+        0 left motor     ("left_drive")
+        1 right motor    ("right_drive")
+        2 climb motor    ("climb_motor")
+        3 pivot motor    ("right_pivot_motor")
     servos:
-        0 team marker ("right_claw")
-        1 right gripper ("right_gripper")
-        2 right hand lifter ("right_hand")
+        0 team marker    ("right_claw")
+        1 right gripper  ("right_gripper")
+        2 right wrist    ("right_hand")
         3 empty
+        4 empty
+        5 empty
 
-Hub 2:
+Hub 2 (10):
     motors:
-        0 right arm ("right_arm_turn")
-        1 right arm extension ("right_arm_extend")
+        0 empty
+        1 empty
         2 empty
         3 empty
     servos:
@@ -22,3 +24,5 @@ Hub 2:
         1 empty
         2 empty
         3 empty
+        4 empty
+        5 empty
