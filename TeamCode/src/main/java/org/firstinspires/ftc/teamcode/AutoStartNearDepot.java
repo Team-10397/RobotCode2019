@@ -52,7 +52,7 @@ import com.qualcomm.robotcore.util.Range;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Autonomous Depot.", group="Autonomous")
+@Autonomous(name="Autonomous Depot", group="Autonomous")
 public class AutoStartNearDepot extends LinearOpMode {
 
     // Declare OpMode members.
@@ -98,7 +98,7 @@ public class AutoStartNearDepot extends LinearOpMode {
                     break;
                 case 3: // turns to right itself
                     iceRobot.moveTime(0,0.25);
-                    sleep(600);
+                    sleep(500);
                     iceRobot.stop();
                     sleep(1000);
                     state += 1;
