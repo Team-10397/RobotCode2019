@@ -85,7 +85,7 @@ public class AutoStartNearDepotToEnemyCrater extends LinearOpMode {
                     break;
                 case 1: // turns to unlatch from lander
                     iceRobot.moveTime(0,-0.25);
-                    sleep(500);
+                    sleep(350);
                     iceRobot.stop();
                     sleep(500);
                     iceRobot.moveTime(-0.25,0);
@@ -108,7 +108,7 @@ public class AutoStartNearDepotToEnemyCrater extends LinearOpMode {
                     sleep(250);
                     iceRobot.stop();
                     iceRobot.moveTime(0,0.25);
-                    sleep(500);
+                    sleep(350);
                     iceRobot.stop();
                     sleep(1000);
                     state += 1;
