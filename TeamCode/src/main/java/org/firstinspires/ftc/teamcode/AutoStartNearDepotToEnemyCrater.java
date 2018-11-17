@@ -87,6 +87,10 @@ public class AutoStartNearDepotToEnemyCrater extends LinearOpMode {
                     iceRobot.moveTime(0,-0.25);
                     sleep(500);
                     iceRobot.stop();
+                    sleep(500);
+                    iceRobot.moveTime(-0.25,0);
+                    sleep(250);
+                    iceRobot.stop();
                     state += 1;
                     break;
 
@@ -100,18 +104,18 @@ public class AutoStartNearDepotToEnemyCrater extends LinearOpMode {
                     }
                     break;
                 case 3: // turns to right itself
-                    //iceRobot.moveTime(-.1,0);
-                    //sleep(250);
-                    //iceRobot.stop();
+                    iceRobot.moveTime(-.1,0);
+                    sleep(250);
+                    iceRobot.stop();
                     iceRobot.moveTime(0,0.25);
-                    sleep(550);
+                    sleep(500);
                     iceRobot.stop();
                     sleep(1000);
                     state += 1;
                     break;
                 case 4: // backs into the depot
                     iceRobot.moveTime(-.15,0);
-                    sleep(2000);
+                    sleep(1750);
                     iceRobot.stop();
                     sleep(1000);
                     state += 1;
@@ -123,16 +127,16 @@ public class AutoStartNearDepotToEnemyCrater extends LinearOpMode {
                     break;
                 case 6: // goes forward to ensure team marker iss dropped
                     iceRobot.moveTime(.2,0);
-                    sleep(250);
+                    sleep(1000);
                     iceRobot.stop();
-                    state += 1;
+                    state += 10;
                     break;
                 case 7:
                     iceRobot.moveTime(0,.25);
-                    sleep(250);
+                    sleep(750);
                     iceRobot.stop();
                     sleep(500);
-                    iceRobot.moveTime(.3,0);
+                    iceRobot.moveTime(-.3,0);
                     sleep(300);
                     iceRobot.stop();
                     sleep(500);
@@ -140,7 +144,7 @@ public class AutoStartNearDepotToEnemyCrater extends LinearOpMode {
                     break;
                 case 8:
                     iceRobot.resetEncoders();
-                    error = (target - iceRobot.rightRangeSensor.getDistance(DistanceUnit.MM))*.01;
+                    error = (iceRobot.rightRangeSensor.getDistance(DistanceUnit.MM)- target)*.005;
                     iceRobot.leftDrive.setPower(speed-error);
                     iceRobot.rightDrive.setPower(speed+error);
 
