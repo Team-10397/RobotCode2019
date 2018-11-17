@@ -29,6 +29,7 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -55,6 +56,8 @@ public class HardwareRobot // TODO (andrew): doesn't really matter but maybe ren
     public Servo rightClaw   = null;  // initializes servo claw
     public Servo rightGripper = null; // initializes servo gripper
     public Servo rightHand  = null;   // init
+
+    public ModernRoboticsI2cRangeSensor rightRangeSensor;
 
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
@@ -88,6 +91,8 @@ public class HardwareRobot // TODO (andrew): doesn't really matter but maybe ren
     public void init(HardwareMap ahwMap) {
         // Save reference to Hardware map
         hwMap = ahwMap;
+
+        rightRangeSensor = hwMap.get(ModernRoboticsI2cRangeSensor.class, "sensor_range");
 
         // Define and Initialize Motors
         leftDrive  = hwMap.get(DcMotor.class, "left_drive");
@@ -126,6 +131,12 @@ public class HardwareRobot // TODO (andrew): doesn't really matter but maybe ren
     public void resetEncoder () {
         climbMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         climbMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+    public void resetEncoders () {
+        leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     public void moveTime(double speed, double turn){
