@@ -59,8 +59,9 @@ public class AutoStartNearDepotToEnemyCrater extends LinearOpMode {
     int state = 0; // TODO: use enums
 
 
-    public double speed = .5;
+    public double speed = -.5;
     public double error = 0;
+    public double target = 250;
 
     @Override
 
@@ -99,11 +100,11 @@ public class AutoStartNearDepotToEnemyCrater extends LinearOpMode {
                     }
                     break;
                 case 3: // turns to right itself
-                    iceRobot.moveTime(-.1,0);
-                    sleep(250);
-                    iceRobot.stop();
+                    //iceRobot.moveTime(-.1,0);
+                    //sleep(250);
+                    //iceRobot.stop();
                     iceRobot.moveTime(0,0.25);
-                    sleep(500);
+                    sleep(550);
                     iceRobot.stop();
                     sleep(1000);
                     state += 1;
@@ -112,6 +113,7 @@ public class AutoStartNearDepotToEnemyCrater extends LinearOpMode {
                     iceRobot.moveTime(-.15,0);
                     sleep(2000);
                     iceRobot.stop();
+                    sleep(1000);
                     state += 1;
                     break;
                 case 5: // drops the team marker
@@ -121,26 +123,32 @@ public class AutoStartNearDepotToEnemyCrater extends LinearOpMode {
                     break;
                 case 6: // goes forward to ensure team marker iss dropped
                     iceRobot.moveTime(.2,0);
-                    sleep(100);
+                    sleep(250);
                     iceRobot.stop();
                     state += 1;
                     break;
                 case 7:
                     iceRobot.moveTime(0,.25);
-                    sleep(500);
+                    sleep(250);
                     iceRobot.stop();
+                    sleep(500);
+                    iceRobot.moveTime(.3,0);
+                    sleep(300);
+                    iceRobot.stop();
+                    sleep(500);
                     state += 1;
                     break;
                 case 8:
                     iceRobot.resetEncoders();
-                    error = (300 - iceRobot.rightRangeSensor.getDistance(DistanceUnit.MM))*.01;
+                    error = (target - iceRobot.rightRangeSensor.getDistance(DistanceUnit.MM))*.01;
                     iceRobot.leftDrive.setPower(speed-error);
                     iceRobot.rightDrive.setPower(speed+error);
 
-                    if (iceRobot.leftDrive.getCurrentPosition() > iceRobot.encoder_ticks_per_revolution * 50){
+                    if (iceRobot.rightDrive.getCurrentPosition() > iceRobot.encoder_ticks_per_inch * 25){
                         speed = .1;
+                        target = 100;
                     }
-                    if (iceRobot.leftDrive.getCurrentPosition() > iceRobot.encoder_ticks_per_revolution * 90) {
+                    if (iceRobot.rightDrive.getCurrentPosition() > iceRobot.encoder_ticks_per_inch * 90) {
                         state += 1;
                     }
                     break;

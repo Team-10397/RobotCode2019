@@ -119,7 +119,7 @@ public class StandardTeleOp extends OpMode{
             iceRobot.climbMotor.setPower(input);
         }
 
-        if (gamepad1.x){
+        if (gamepad1.x || gamepad2.x){
             iceRobot.resetEncoder();
         }
 
