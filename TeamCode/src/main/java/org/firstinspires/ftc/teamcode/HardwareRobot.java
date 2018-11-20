@@ -61,7 +61,7 @@ public class HardwareRobot // TODO (andrew): doesn't really matter but maybe ren
 
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
-    private ElapsedTime period  = new ElapsedTime();
+    private ElapsedTime time  = new ElapsedTime();
 
     /* variables*/
 
@@ -161,7 +161,8 @@ public class HardwareRobot // TODO (andrew): doesn't really matter but maybe ren
             rightDrive.setPower(.25);
             leftDrive.setPower(-.25);
         }
-        while(Math.abs(leftDrive.getCurrentPosition()) < ticks) {
+        boolean done = false;
+        while(!done) {if (Math.abs(leftDrive.getCurrentPosition()) > ticks){done = true;}
         }
         leftDrive.setPower(0);
         rightDrive.setPower(0);
@@ -180,7 +181,12 @@ public class HardwareRobot // TODO (andrew): doesn't really matter but maybe ren
             rightDrive.setPower(-.25);
             leftDrive.setPower(-.25);
         }
-        while(Math.abs(leftDrive.getCurrentPosition())<ticks) {
+        boolean done = false;
+        while(!done){
+
+            if(Math.abs(leftDrive.getCurrentPosition())>ticks){
+                done = true;
+            }
         }
         leftDrive.setPower(0);
         rightDrive.setPower(0);
