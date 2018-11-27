@@ -21,17 +21,15 @@ public class EncoderTest extends LinearOpMode {
         while (true) {
             switch (state) {
                 case 0:
-                    iceRobot.encoderMove(12);
-                    sleep(500);
-                    iceRobot.encoderTurn(90);
-                    sleep(500);
-                    if (gamepad1.x) {
-                        state +=1;
-                    }
+                    iceRobot.moveTime(-.25,0);
+                    state +=1;
+
                     break;
                 case 1:
-                    iceRobot.stop();
-                    state+=1;
+                    if (iceRobot.leftDrive.getCurrentPosition()<-1*(iceRobot.encoder_ticks_per_inch*12)){
+                        iceRobot.stop();
+                        state+=1;
+                        }
                     break;
             }
         }

@@ -162,7 +162,7 @@ public class HardwareRobot // TODO (andrew): doesn't really matter but maybe ren
             leftDrive.setPower(-.25);
         }
         boolean done = false;
-        while(!done) {if (Math.abs(leftDrive.getCurrentPosition()) > ticks){done = true;}
+        while(!done) {if (Math.abs(leftDrive.getCurrentPosition()) > Math.abs(ticks)){done = true;}
         }
         leftDrive.setPower(0);
         rightDrive.setPower(0);
@@ -184,7 +184,7 @@ public class HardwareRobot // TODO (andrew): doesn't really matter but maybe ren
         boolean done = false;
         while(!done){
 
-            if(Math.abs(leftDrive.getCurrentPosition())>ticks){
+            if( Math.abs(leftDrive.getCurrentPosition() )>Math.abs(ticks)){
                 done = true;
             }
         }
