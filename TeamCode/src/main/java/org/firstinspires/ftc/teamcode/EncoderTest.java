@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import java.io.InvalidClassException;
 
@@ -20,15 +21,15 @@ public class EncoderTest extends LinearOpMode {
         while (true) {
             switch (state) {
                 case 0:
-                    iceRobot.moveTime(.5,0);
-                    state += 1;
-                    break;
-                case 1:
-                    if (iceRobot.leftDrive.getCurrentPosition() > 12*iceRobot.encoder_ticks_per_inch){
-                        state+=1;
+                    iceRobot.encoderMove(12);
+                    sleep(500);
+                    iceRobot.encoderTurn(90);
+                    sleep(500);
+                    if (gamepad1.x) {
+                        state +=1;
                     }
                     break;
-                case 2:
+                case 1:
                     iceRobot.stop();
                     state+=1;
                     break;

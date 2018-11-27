@@ -73,7 +73,7 @@ public class HardwareRobot // TODO (andrew): doesn't really matter but maybe ren
     public static final double SERVO_CLAW_OPEN = 0;
 
 
-    public static final double turn_diameter = 15.6; // inches
+    public static final double turn_diameter = 15.4; // inches
     public static final double wheel_diameter = 4;   // inches
     public static final double encoder_ticks_per_revolution = 1120;
     public static final double ticks_per_degree =
