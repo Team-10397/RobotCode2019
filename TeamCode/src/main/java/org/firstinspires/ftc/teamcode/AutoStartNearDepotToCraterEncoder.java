@@ -78,7 +78,7 @@ public class AutoStartNearDepotToCraterEncoder extends LinearOpMode {
                 case 1: // turns to unlatch from lander
                     iceRobot.encoderTurn(15);
                     sleep(500);
-                    iceRobot.encoderMove(-3);
+                    iceRobot.encoderMove(-3,.25);
                     sleep(500);
                     state += 1;
                     break;
@@ -98,7 +98,7 @@ public class AutoStartNearDepotToCraterEncoder extends LinearOpMode {
                     state += 1;
                     break;
                 case 4: // backs into the depot
-                    iceRobot.encoderMove(-60);
+                    iceRobot.encoderMove(-60,.5);
                     sleep(500);
                     state += 1;
                     break;
@@ -114,8 +114,9 @@ public class AutoStartNearDepotToCraterEncoder extends LinearOpMode {
                     state += 1;
                     break;
                 case 7:
-                    iceRobot.encoderMove(90);
+                    iceRobot.encoderMove(50,.5);
                     sleep(500);
+                    iceRobot.encoderMove(20,.1);
                     state += 1;
                     break;
             }

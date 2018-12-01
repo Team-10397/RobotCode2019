@@ -90,8 +90,8 @@ public class StandardTeleOp extends OpMode{
         int climbpos = iceRobot.climbMotor.getCurrentPosition();
 
         // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
-        drive = -gamepad1.left_stick_y;
-        turn = gamepad1.right_stick_x* 0.5;
+        drive = -gamepad1.left_stick_y + (gamepad2.left_stick_y*-.25);
+        turn = gamepad1.right_stick_x* 0.5 + (gamepad2.left_stick_x*.25);
         upClimb = gamepad1.left_trigger;
         downClimb = gamepad1.right_trigger;
         joyClimb = gamepad2.right_stick_y;
@@ -132,25 +132,24 @@ public class StandardTeleOp extends OpMode{
 
 
 
-        double extendSpeed = gamepad2.right_trigger-gamepad2.left_trigger;
+        double pivotSpeed = gamepad1.right_stick_x;
 
-        iceRobot.pivotMotor.setPower(extendSpeed);
+        iceRobot.pivotMotor.setPower(pivotSpeed);
 
         if (gamepad2.dpad_up) {
-            iceRobot.rightHand.setPosition(iceRobot.SERVO_CLAW_CLOSED);
+            iceRobot.rightHand.setPosition(-1);
         }
         if (gamepad2.dpad_down) {
-            iceRobot.rightHand.setPosition(iceRobot.SERVO_CLAW_OPEN);
+            iceRobot.rightHand.setPosition(1);
         }
 
-        if (gamepad2.left_bumper) {
+        if (gamepad2.left_bumper || (gamepad1.y && gamepad1.left_bumper)) {
             iceRobot.rightGripper.setPosition(iceRobot.SERVO_CLAW_CLOSED);
         }
-        if (gamepad2.right_bumper){
+        if (gamepad2.right_bumper || (gamepad1.y && gamepad1.right_bumper)){
             iceRobot.rightGripper.setPosition(iceRobot.SERVO_CLAW_OPEN);
         }
 
-        iceRobot.pivotMotor.setPower(0);
 
 
 

@@ -168,18 +168,18 @@ public class HardwareRobot // TODO (andrew): doesn't really matter but maybe ren
         rightDrive.setPower(0);
     }
 
-    public void encoderMove(double inches){
+    public void encoderMove(double inches, double speed){
         int ticks = (int) (encoder_ticks_per_inch * inches);
         leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         if (inches > 0){
-            rightDrive.setPower(.25);
-            leftDrive.setPower(.25);
+            rightDrive.setPower(speed);
+            leftDrive.setPower(speed);
         }else {
-            rightDrive.setPower(-.25);
-            leftDrive.setPower(-.25);
+            rightDrive.setPower(-speed);
+            leftDrive.setPower(-speed);
         }
         boolean done = false;
         while(!done){
