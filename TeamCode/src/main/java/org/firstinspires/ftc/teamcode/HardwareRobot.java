@@ -31,6 +31,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -55,7 +56,7 @@ public class HardwareRobot // TODO (andrew): doesn't really matter but maybe ren
 
     public Servo rightClaw   = null;  // initializes servo claw
     public Servo rightGripper = null; // initializes servo gripper
-    public Servo rightHand  = null;   // init
+    public CRServo rightHand  = null;   // init
 
     public ModernRoboticsI2cRangeSensor rightRangeSensor;
 
@@ -104,12 +105,12 @@ public class HardwareRobot // TODO (andrew): doesn't really matter but maybe ren
         //define and initialize Servos
         rightClaw = hwMap.get(Servo.class, "right_claw");
         rightGripper = hwMap.get(Servo.class,"right_gripper");
-        rightHand = hwMap.get(Servo.class,"right_hand");
+        rightHand = hwMap.get(CRServo.class,"right_hand");
 
         rightClaw.setPosition(SERVO_CLAW_CLOSED);
 
         rightGripper.setPosition(SERVO_CLAW_CLOSED);
-        rightHand.setPosition(SERVO_CLAW_CLOSED);
+        rightHand.setPower(0);
 
         leftDrive.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
         rightDrive.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
