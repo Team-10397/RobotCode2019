@@ -135,13 +135,13 @@ public class StandardTeleOp extends OpMode{
 
         iceRobot.pivotMotor.setPower(gamepad2.right_stick_x);
 
-        double gripStrength = (gamepad2.left_trigger-gamepad2.right_trigger)*2;
+        double gripStrength = (gamepad2.right_trigger-gamepad2.left_trigger)*2;
         iceRobot.rightHand.setPower(gripStrength);
 
-        if (gamepad2.left_bumper || (gamepad1.y && gamepad1.left_bumper)) {
+        if (gamepad2.right_bumper || (gamepad1.y && gamepad1.left_bumper)) {
             iceRobot.rightGripper.setPosition(.5);
         }
-        if (gamepad2.right_bumper || (gamepad1.y && gamepad1.right_bumper)){
+        if (gamepad2.left_bumper || (gamepad1.y && gamepad1.right_bumper)){
             iceRobot.rightGripper.setPosition(.75);
         }
 

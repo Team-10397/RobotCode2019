@@ -89,7 +89,7 @@ public class AutoStartNearDepotToCraterEncoder extends LinearOpMode {
                     if (iceRobot.climbMotor.getCurrentPosition() > -1000 || runtime.milliseconds() - start_time > 750){
                         iceRobot.climbMotor.setPower(0);
                         sleep(1000);
-                        state += 1;
+                        state += 2;
                     }
                     break;
                 case 3: // turns to right itself
@@ -105,15 +105,8 @@ public class AutoStartNearDepotToCraterEncoder extends LinearOpMode {
                 case 5: // drops the team marker
                     iceRobot.rightClaw.setPosition(iceRobot.SERVO_CENTER);
                     sleep(1000);
-                    state += 1;
+                    state += 2;
                     break;
-                case 6:
-                    iceRobot.encoderMove(12,.75);
-                    sleep(500);
-                    iceRobot.encoderTurn(45);
-                    sleep(500);
-                    iceRobot.encoderMove(-24,.5);
-                    iceRobot.encoderMove(12,.5);
                 case 7: // goes forward to ensure team marker iss dropped
                     iceRobot.encoderTurn(45);
                     sleep(500);
