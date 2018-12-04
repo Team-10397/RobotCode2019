@@ -139,10 +139,10 @@ public class StandardTeleOp extends OpMode{
         iceRobot.rightHand.setPower(gripStrength);
 
         if (gamepad2.left_bumper || (gamepad1.y && gamepad1.left_bumper)) {
-            iceRobot.rightGripper.setPosition(iceRobot.SERVO_CLAW_CLOSED);
+            iceRobot.rightGripper.setPosition(.5);
         }
         if (gamepad2.right_bumper || (gamepad1.y && gamepad1.right_bumper)){
-            iceRobot.rightGripper.setPosition(iceRobot.SERVO_CLAW_OPEN*.5);
+            iceRobot.rightGripper.setPosition(.75);
         }
 
 

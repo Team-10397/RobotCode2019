@@ -47,7 +47,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Autonomous Depot With Encoder", group="Autonomous")
+@Autonomous(name="Autonomous Depot To Crater With Encoder", group="Autonomous")
 public class AutoStartNearDepotToCraterEncoder extends LinearOpMode {
 
     // Declare OpMode members.
@@ -78,7 +78,7 @@ public class AutoStartNearDepotToCraterEncoder extends LinearOpMode {
                 case 1: // turns to unlatch from lander
                     iceRobot.encoderTurn(15);
                     sleep(500);
-                    iceRobot.encoderMove(-3,.25);
+                    iceRobot.encoderMove(-3,.50);
                     sleep(500);
                     state += 1;
                     break;
@@ -98,7 +98,7 @@ public class AutoStartNearDepotToCraterEncoder extends LinearOpMode {
                     state += 1;
                     break;
                 case 4: // backs into the depot
-                    iceRobot.encoderMove(-60,.5);
+                    iceRobot.encoderMove(-50,.75);
                     sleep(500);
                     state += 1;
                     break;
@@ -107,16 +107,23 @@ public class AutoStartNearDepotToCraterEncoder extends LinearOpMode {
                     sleep(1000);
                     state += 1;
                     break;
-                case 6: // goes forward to ensure team marker iss dropped
+                case 6:
+                    iceRobot.encoderMove(12,.75);
+                    sleep(500);
+                    iceRobot.encoderTurn(45);
+                    sleep(500);
+                    iceRobot.encoderMove(-24,.5);
+                    iceRobot.encoderMove(12,.5);
+                case 7: // goes forward to ensure team marker iss dropped
                     iceRobot.encoderTurn(45);
                     sleep(500);
                     iceRobot.stop();
                     state += 1;
                     break;
-                case 7:
-                    iceRobot.encoderMove(50,.5);
+                case 8:
+                    iceRobot.encoderMove(50,.75);
                     sleep(500);
-                    iceRobot.encoderMove(20,.1);
+                    iceRobot.encoderMove(25,.1);
                     state += 1;
                     break;
             }
