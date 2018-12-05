@@ -109,7 +109,7 @@ public class HardwareRobot // TODO (andrew): doesn't really matter but maybe ren
 
         rightClaw.setPosition(SERVO_CLAW_CLOSED);
 
-        rightGripper.setPosition(.5);
+        rightGripper.setPosition(.75);
         rightHand.setPower(0);
 
         leftDrive.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
