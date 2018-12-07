@@ -98,7 +98,9 @@ public class AutoStartNearCraterToDepotEncoder extends LinearOpMode {
                     state += 1;
                     break;
                 case 4: // backs towards the crater
-                    iceRobot.encoderMove(-20,1, this);
+                    iceRobot.encoderMove(-25,1, this);
+                    sleep(500);
+                    iceRobot.encoderMove(10,.5,this);
                     sleep(500);
                     state += 1;
                     break;
@@ -107,7 +109,7 @@ public class AutoStartNearCraterToDepotEncoder extends LinearOpMode {
                     sleep(500);
                     iceRobot.encoderMove(-40,.8,this);
                     sleep(500);
-                    iceRobot.encoderTurn(45);
+                    iceRobot.encoderTurn(-45);
                     sleep(500);
                     iceRobot.encoderMove(-50,1,this);
                     sleep(500);
