@@ -31,6 +31,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -174,7 +175,7 @@ public class HardwareRobot // TODO (andrew): doesn't really matter but maybe ren
         rightDrive.setPower(0);
     }
 
-    public void encoderMove(double inches, double speed){
+    public void encoderMove(double inches, double speed, LinearOpMode opMode){
         int ticks = (int) (encoder_ticks_per_inch * inches);
         leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -190,7 +191,8 @@ public class HardwareRobot // TODO (andrew): doesn't really matter but maybe ren
         boolean done = false;
         while(!done){
             if( Math.abs(leftDrive.getCurrentPosition())>Math.abs(ticks)
-                    || doneflag){
+                    || doneflag
+                    || opMode.opModeIsActive()){
                 done = true;
             }
         }

@@ -48,7 +48,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 
 @Autonomous(name="Autonomous Depot To Crater With Encoder", group="Autonomous")
-public class AutoStartNearDepotToCraterEncoder extends LinearOpMode {
+public class AutoStartNearCraterToDepotEncoder extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
