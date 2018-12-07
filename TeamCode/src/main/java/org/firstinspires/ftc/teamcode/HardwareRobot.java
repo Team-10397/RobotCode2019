@@ -66,6 +66,8 @@ public class HardwareRobot // TODO (andrew): doesn't really matter but maybe ren
 
     /* variables*/
 
+    public boolean doneflag = false;
+
     public static final int maxpos = -3000;
     public static final int minpos = 0;
 
@@ -163,7 +165,10 @@ public class HardwareRobot // TODO (andrew): doesn't really matter but maybe ren
             leftDrive.setPower(-.25);
         }
         boolean done = false;
-        while(!done) {if (Math.abs(leftDrive.getCurrentPosition()) > Math.abs(ticks)){done = true;}
+        while(!done) {if (Math.abs(leftDrive.getCurrentPosition()) > Math.abs(ticks)
+                || doneflag){
+            done = true;
+        }
         }
         leftDrive.setPower(0);
         rightDrive.setPower(0);
@@ -184,8 +189,8 @@ public class HardwareRobot // TODO (andrew): doesn't really matter but maybe ren
         }
         boolean done = false;
         while(!done){
-
-            if( Math.abs(leftDrive.getCurrentPosition() )>Math.abs(ticks)){
+            if( Math.abs(leftDrive.getCurrentPosition())>Math.abs(ticks)
+                    || doneflag){
                 done = true;
             }
         }

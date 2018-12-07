@@ -123,6 +123,7 @@ public class AutoStartNearDepotToCraterEncoder extends LinearOpMode {
 
 
         }
+        iceRobot.doneflag = true;
 
 
 
