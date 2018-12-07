@@ -47,7 +47,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Autonomous Depot To Crater With Encoder", group="Autonomous")
+@Autonomous(name="Autonomous Crater To Depot With Encoder", group="Autonomous")
 public class AutoStartNearCraterToDepotEncoder extends LinearOpMode {
 
     // Declare OpMode members.
@@ -97,23 +97,28 @@ public class AutoStartNearCraterToDepotEncoder extends LinearOpMode {
                     sleep(500);
                     state += 1;
                     break;
-                case 4: // backs into the depot
-                    iceRobot.encoderMove(-50,1, this);
+                case 4: // backs towards the crater
+                    iceRobot.encoderMove(-20,1, this);
                     sleep(500);
                     state += 1;
                     break;
-                case 5: // drops the team marker
-                    iceRobot.rightClaw.setPosition(iceRobot.SERVO_CENTER);
-                    sleep(1000);
-                    state += 2;
-                    break;
-                case 7: // goes forward to ensure team marker iss dropped
+                case 5:
+                    iceRobot.encoderTurn(-90);
+                    sleep(500);
+                    iceRobot.encoderMove(-40,.8,this);
+                    sleep(500);
                     iceRobot.encoderTurn(45);
                     sleep(500);
-                    iceRobot.stop();
+                    iceRobot.encoderMove(-50,1,this);
+                    sleep(500);
                     state += 1;
                     break;
-                case 8:
+                case 6: // drops the team marker
+                    iceRobot.rightClaw.setPosition(iceRobot.SERVO_CENTER);
+                    sleep(1000);
+                    state += 1;
+                    break;
+                case 7:
                     iceRobot.encoderMove(50,.75, this);
                     sleep(500);
                     iceRobot.encoderMove(25,.1, this);

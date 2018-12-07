@@ -192,7 +192,7 @@ public class HardwareRobot // TODO (andrew): doesn't really matter but maybe ren
         while(!done){
             if( Math.abs(leftDrive.getCurrentPosition())>Math.abs(ticks)
                     || doneflag
-                    || opMode.opModeIsActive()){
+                    || !opMode.opModeIsActive()){
                 done = true;
             }
         }
