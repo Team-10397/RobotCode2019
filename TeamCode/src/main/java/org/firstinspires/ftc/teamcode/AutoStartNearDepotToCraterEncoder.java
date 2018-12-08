@@ -30,13 +30,8 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
 
 /**
@@ -52,8 +47,8 @@ import com.qualcomm.robotcore.util.Range;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Autonomous Crater", group="Autonomous")
-public class AutoStartNearCrater extends LinearOpMode {
+@Autonomous(name="Autonomous Depot To Crater With Encoder", group="Autonomous")
+public class AutoStartNearDepotToCraterEncoder extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
@@ -73,17 +68,18 @@ public class AutoStartNearCrater extends LinearOpMode {
 
         while (opModeIsActive()){
             switch (state){
-                case 0: // dropps from the lander
+                case 0: // drops from the lander
                     iceRobot.climbMotor.setPower(-1);
                     if (iceRobot.climbMotor.getCurrentPosition() < -3000){
                         iceRobot.climbMotor.setPower(0);
                         state += 1;
                     }
                     break;
-                case 1: // turns to unlatch
-                    iceRobot.moveTime(0,0.25);
+                case 1: // turns to unlatch from lander
+                    iceRobot.encoderTurn(15);
                     sleep(500);
-                    iceRobot.stop();
+                    iceRobot.encoderMove(-3,.50, this);
+                    sleep(500);
                     state += 1;
                     break;
 
@@ -93,27 +89,40 @@ public class AutoStartNearCrater extends LinearOpMode {
                     if (iceRobot.climbMotor.getCurrentPosition() > -1000 || runtime.milliseconds() - start_time > 750){
                         iceRobot.climbMotor.setPower(0);
                         sleep(1000);
-                        state += 1;
+                        state += 2;
                     }
                     break;
                 case 3: // turns to right itself
-                    iceRobot.moveTime(0,-0.25);
+                    iceRobot.encoderTurn(-15);
                     sleep(500);
-                    iceRobot.stop();
-                    sleep(1000);
                     state += 1;
                     break;
-                case 4: //backs into the crater
-                    iceRobot.moveTime(-.05,0);
-                    sleep(2500);
+                case 4: // backs into the depot
+                    iceRobot.encoderMove(-50,1, this);
+                    sleep(500);
+                    state += 1;
+                    break;
+                case 5: // drops the team marker
+                    iceRobot.rightClaw.setPosition(iceRobot.SERVO_CENTER);
+                    sleep(1000);
+                    state += 2;
+                    break;
+                case 7: // goes forward to ensure team marker iss dropped
+                    iceRobot.encoderTurn(45);
+                    sleep(500);
                     iceRobot.stop();
+                    state += 1;
+                    break;
+                case 8:
+                    iceRobot.encoderMove(50,.75, this);
+                    sleep(500);
+                    iceRobot.encoderMove(25,.1, this);
                     state += 1;
                     break;
             }
 
 
         }
-
 
 
 

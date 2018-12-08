@@ -29,7 +29,10 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -48,15 +51,23 @@ public class HardwareRobot // TODO (andrew): doesn't really matter but maybe ren
     /* Public OpMode members. */
     public DcMotor  leftDrive   = null;  //initalizes the drive motors
     public DcMotor  rightDrive  = null;
-    public DcMotor  climbMotor   = null; //initalizes the climb motor
+    public DcMotor  climbMotor  = null;  //initalizes the climb motor
+    public DcMotor  pivotMotor  = null;
 
-    public Servo    rightClaw   = null; //initializes servo claw
+
+    public Servo rightClaw   = null;  // initializes servo claw
+    public Servo rightGripper = null; // initializes servo gripper
+    public CRServo rightHand  = null;   // init
+
+    public ModernRoboticsI2cRangeSensor rightRangeSensor;
 
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
-    private ElapsedTime period  = new ElapsedTime();
+    private ElapsedTime time  = new ElapsedTime();
 
     /* variables*/
+
+    public boolean doneflag = false;
 
     public static final int maxpos = -3000;
     public static final int minpos = 0;
@@ -66,7 +77,7 @@ public class HardwareRobot // TODO (andrew): doesn't really matter but maybe ren
     public static final double SERVO_CLAW_OPEN = 0;
 
 
-    public static final double turn_diameter = 15.6; // inches
+    public static final double turn_diameter = 15.4; // inches
     public static final double wheel_diameter = 4;   // inches
     public static final double encoder_ticks_per_revolution = 1120;
     public static final double ticks_per_degree =
@@ -85,15 +96,24 @@ public class HardwareRobot // TODO (andrew): doesn't really matter but maybe ren
         // Save reference to Hardware map
         hwMap = ahwMap;
 
+        rightRangeSensor = hwMap.get(ModernRoboticsI2cRangeSensor.class, "sensor_range");
+
         // Define and Initialize Motors
         leftDrive  = hwMap.get(DcMotor.class, "left_drive");
         rightDrive = hwMap.get(DcMotor.class, "right_drive");
         climbMotor = hwMap.get(DcMotor.class, "climb_motor");
+        pivotMotor = hwMap.get(DcMotor.class,"right_pivot_motor");
 
-        //define and initillize Servose
+
+        //define and initialize Servos
         rightClaw = hwMap.get(Servo.class, "right_claw");
+        rightGripper = hwMap.get(Servo.class,"right_gripper");
+        rightHand = hwMap.get(CRServo.class,"right_hand");
 
         rightClaw.setPosition(SERVO_CLAW_CLOSED);
+
+        rightGripper.setPosition(.75);
+        rightHand.setPower(0);
 
         leftDrive.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
         rightDrive.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
@@ -115,6 +135,12 @@ public class HardwareRobot // TODO (andrew): doesn't really matter but maybe ren
     public void resetEncoder () {
         climbMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         climbMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+    public void resetEncoders () {
+        leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     public void moveTime(double speed, double turn){
@@ -139,26 +165,36 @@ public class HardwareRobot // TODO (andrew): doesn't really matter but maybe ren
             rightDrive.setPower(.25);
             leftDrive.setPower(-.25);
         }
-        while(Math.abs(leftDrive.getCurrentPosition()) < ticks) {
+        boolean done = false;
+        while(!done) {if (Math.abs(leftDrive.getCurrentPosition()) > Math.abs(ticks)
+                || doneflag){
+            done = true;
+        }
         }
         leftDrive.setPower(0);
         rightDrive.setPower(0);
     }
 
-    public void encoderMove(double inches){
+    public void encoderMove(double inches, double speed, LinearOpMode opMode){
         int ticks = (int) (encoder_ticks_per_inch * inches);
         leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         if (inches > 0){
-            rightDrive.setPower(.25);
-            leftDrive.setPower(.25);
+            rightDrive.setPower(speed);
+            leftDrive.setPower(speed);
         }else {
-            rightDrive.setPower(-.25);
-            leftDrive.setPower(-.25);
+            rightDrive.setPower(-speed);
+            leftDrive.setPower(-speed);
         }
-        while(Math.abs(leftDrive.getCurrentPosition())<ticks) {
+        boolean done = false;
+        while(!done){
+            if( Math.abs(leftDrive.getCurrentPosition())>Math.abs(ticks)
+                    || doneflag
+                    || !opMode.opModeIsActive()){
+                done = true;
+            }
         }
         leftDrive.setPower(0);
         rightDrive.setPower(0);

@@ -37,7 +37,6 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.Range;
 
 @TeleOp(name="Robot: Teleop Drive", group="TeleOp")
-//@Disabled
 public class StandardTeleOp extends OpMode{
 
     /* Declare OpMode members. */
@@ -82,6 +81,7 @@ public class StandardTeleOp extends OpMode{
         double turn;
         double upClimb;
         double downClimb;
+        double joyClimb;
         double maxClimbPower = 100 /* percent */ /100.0; // cool formatting ay?
         int maxclimb= 100;
         int minclimb = -3000;
@@ -90,16 +90,25 @@ public class StandardTeleOp extends OpMode{
         int climbpos = iceRobot.climbMotor.getCurrentPosition();
 
         // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
-        drive = -gamepad1.left_stick_y* 0.5;
-        turn = gamepad1.right_stick_x* 0.5;
+        drive = -gamepad1.left_stick_y + (gamepad2.left_stick_y*-.25);
+        turn = gamepad1.right_stick_x* 0.5 + (gamepad2.left_stick_x*.25);
         upClimb = gamepad1.left_trigger;
         downClimb = gamepad1.right_trigger;
+        joyClimb = gamepad2.right_stick_y;
+
+
+        if (gamepad1.left_stick_button) {
+            drive = drive * 0.25;
+        }
+        if (gamepad1.right_stick_button) {
+            turn = turn * 0.25;
+        }
 
 
         iceRobot.leftDrive.setPower(Range.clip(drive+turn,-1.0,1.0));
         iceRobot.rightDrive.setPower(Range.clip(drive-turn,-1.0,1.0));
 
-        double input = (upClimb-downClimb)*maxClimbPower;
+        double input = (upClimb-downClimb+joyClimb)*maxClimbPower;
         if (climbpos > maxclimb) {
             iceRobot.climbMotor.setPower(Range.clip(input,-1,0)); // if too low, only lets you go up.
         }
@@ -110,7 +119,7 @@ public class StandardTeleOp extends OpMode{
             iceRobot.climbMotor.setPower(input);
         }
 
-        if (gamepad1.x){
+        if (gamepad1.x || gamepad2.x){
             iceRobot.resetEncoder();
         }
 
@@ -120,6 +129,23 @@ public class StandardTeleOp extends OpMode{
         if (gamepad1.a) {
             iceRobot.rightClaw.setPosition(iceRobot.SERVO_CLAW_CLOSED);
         }
+
+
+
+
+        iceRobot.pivotMotor.setPower(gamepad2.right_stick_x);
+
+        double gripStrength = (gamepad2.right_trigger-gamepad2.left_trigger)*2;
+        iceRobot.rightHand.setPower(gripStrength);
+
+        if (gamepad2.right_bumper || (gamepad1.y && gamepad1.left_bumper)) {
+            iceRobot.rightGripper.setPosition(.5);
+        }
+        if (gamepad2.left_bumper || (gamepad1.y && gamepad1.right_bumper)){
+            iceRobot.rightGripper.setPosition(.75);
+        }
+
+
 
 
         telemetry.addData("drive",  "%.2f", drive);

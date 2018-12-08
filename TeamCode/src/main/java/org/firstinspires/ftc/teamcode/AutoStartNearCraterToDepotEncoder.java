@@ -47,8 +47,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Autonomous Crater to Depot", group="Autonomous")
-public class AutoStartNearCraterToDepot extends LinearOpMode {
+@Autonomous(name="Autonomous Crater To Depot With Encoder", group="Autonomous")
+public class AutoStartNearCraterToDepotEncoder extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
@@ -68,94 +68,70 @@ public class AutoStartNearCraterToDepot extends LinearOpMode {
 
         while (opModeIsActive()){
             switch (state){
-                case 0:
+                case 0: // drops from the lander
                     iceRobot.climbMotor.setPower(-1);
                     if (iceRobot.climbMotor.getCurrentPosition() < -3000){
                         iceRobot.climbMotor.setPower(0);
                         state += 1;
                     }
                     break;
-                case 1:
-                    iceRobot.moveTime(0,0.25);
+                case 1: // turns to unlatch from lander
+                    iceRobot.encoderTurn(15);
                     sleep(500);
-                    iceRobot.stop();
+                    iceRobot.encoderMove(-3,.50, this);
+                    sleep(500);
                     state += 1;
                     break;
 
-                case 2:
+                case 2: // lowers climbing arm
                     iceRobot.climbMotor.setPower(1);
                     double start_time = runtime.milliseconds();
                     if (iceRobot.climbMotor.getCurrentPosition() > -1000 || runtime.milliseconds() - start_time > 750){
                         iceRobot.climbMotor.setPower(0);
                         sleep(1000);
-                        state += 1;
+                        state += 2;
                     }
                     break;
-                case 3:
-                    iceRobot.moveTime(0,-0.25);
+                case 3: // turns to right itself
+                    iceRobot.encoderTurn(-15);
                     sleep(500);
-                    iceRobot.stop();
-                    sleep(1000);
                     state += 1;
                     break;
-                case 4: //backs into the crater
-                    iceRobot.moveTime(-.05,0);
-                    sleep(2500);
-                    iceRobot.stop();
+                case 4: // backs towards the crater
+                    iceRobot.encoderMove(-25,1, this);
+                    sleep(500);
+                    iceRobot.encoderMove(10,.5,this);
+                    sleep(500);
                     state += 1;
                     break;
                 case 5:
-                    iceRobot.moveTime(.05,0);
-                    sleep(250);
-                    iceRobot.stop();
-                    sleep(500);
-                    state += 1;
-                case 6:
-                    iceRobot.moveTime(0,0.05);
-                    sleep(500);
-                    iceRobot.stop();
-                    sleep(500);
-                    state += 1;
-                case 7:
-                    iceRobot.moveTime(.05,0);
-                    sleep(2500);
-                    iceRobot.stop();
-                    sleep(500);
-                    state += 1;
-                case 8:
-                    iceRobot.moveTime(0,-0.05);
-                    sleep(500);
-                    iceRobot.stop();
-                    sleep(500);
-                    state += 1;
-                case 9:
-                    iceRobot.moveTime(.05,0);
-                    sleep(4000);
-                    iceRobot.stop();
-                    sleep(500);
-                    state += 1;
-                case 10:
-                    iceRobot.moveTime(0,.05);
-                    sleep(1000);
-                    iceRobot.stop();
-                    sleep(500);
-                    state += 1;
-                case 11:
-                    iceRobot.moveTime(-0.05,0);
-                    sleep(1000);
-                    iceRobot.stop();
-                    sleep(500);
-                    state += 1;
-                case 12:
                     iceRobot.encoderTurn(90);
+                    sleep(500);
+                    iceRobot.encoderMove(40,.8,this);
+                    sleep(500);
+                    iceRobot.encoderTurn(-10);
+                    sleep(500);
+                    iceRobot.encoderMove(40,1,this);
+                    sleep(500);
+                    iceRobot.encoderTurn(-180);
+                    sleep(500);
+                    state += 1;
+                    break;
+                case 6: // drops the team marker
                     iceRobot.rightClaw.setPosition(iceRobot.SERVO_CENTER);
+                    sleep(1000);
+                    state += 1;
+                    break;
+                case 7:
+                    iceRobot.encoderMove(50,.75, this);
+                    sleep(500);
+                    iceRobot.encoderMove(25,.1, this);
                     state += 1;
                     break;
             }
 
 
         }
-
 
 
 
