@@ -105,13 +105,15 @@ public class AutoStartNearCraterToDepotEncoder extends LinearOpMode {
                     state += 1;
                     break;
                 case 5:
-                    iceRobot.encoderTurn(-90);
+                    iceRobot.encoderTurn(90);
                     sleep(500);
-                    iceRobot.encoderMove(-40,.8,this);
+                    iceRobot.encoderMove(40,.8,this);
                     sleep(500);
-                    iceRobot.encoderTurn(-45);
+                    iceRobot.encoderTurn(-10);
                     sleep(500);
-                    iceRobot.encoderMove(-50,1,this);
+                    iceRobot.encoderMove(40,1,this);
+                    sleep(500);
+                    iceRobot.encoderTurn(-180);
                     sleep(500);
                     state += 1;
                     break;
