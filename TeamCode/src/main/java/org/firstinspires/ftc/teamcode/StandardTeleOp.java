@@ -82,7 +82,7 @@ public class StandardTeleOp extends OpMode{
         double upClimb;
         double downClimb;
         double joyClimb;
-        double maxClimbPower = 100 /* percent */ /100.0; // cool formatting ay?
+        double maxClimbPower = 100 /* percent */ /100.0; // maximum speed of climb motor
         int maxclimb= 100;
         int minclimb = -3000;
         boolean clawClosed = false;
@@ -91,8 +91,11 @@ public class StandardTeleOp extends OpMode{
         int climbpos = iceRobot.climbMotor.getCurrentPosition();
 
         // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
-        drive = (gamepad2.left_stick_y*-.25);
-        turn = (gamepad2.left_stick_x*.25);
+        drive=0;
+        turn=0;
+        //drive = (gamepad2.left_stick_y*-.25);
+        //turn = (gamepad2.left_stick_x*.25)
+
         if(!armMode2) {
             drive += -gamepad1.left_stick_y;
             turn += gamepad1.right_stick_x* 0.5;
@@ -138,11 +141,11 @@ public class StandardTeleOp extends OpMode{
 
 
 
-        double pivotPower = gamepad2.right_stick_x;
+        double pivotPower = gamepad2.left_stick_y;
         if(armMode2){ pivotPower += gamepad1.left_stick_y; }
         iceRobot.pivotMotor.setPower(pivotPower);
 
-        double gripStrength = (gamepad2.right_trigger-gamepad2.left_trigger)*2;
+        double gripStrength = (gamepad2.left_trigger-gamepad2.right_trigger)*2;
         if (armMode2){ gripStrength += gamepad1.right_stick_y; }
         iceRobot.rightHand.setPower(gripStrength);
 
