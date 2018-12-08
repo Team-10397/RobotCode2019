@@ -59,7 +59,6 @@ public class HardwareRobot // TODO (andrew): doesn't really matter but maybe ren
     public Servo rightGripper = null; // initializes servo gripper
     public CRServo rightHand  = null;   // init
 
-    public ModernRoboticsI2cRangeSensor rightRangeSensor;
 
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
@@ -96,7 +95,6 @@ public class HardwareRobot // TODO (andrew): doesn't really matter but maybe ren
         // Save reference to Hardware map
         hwMap = ahwMap;
 
-        rightRangeSensor = hwMap.get(ModernRoboticsI2cRangeSensor.class, "sensor_range");
 
         // Define and Initialize Motors
         leftDrive  = hwMap.get(DcMotor.class, "left_drive");

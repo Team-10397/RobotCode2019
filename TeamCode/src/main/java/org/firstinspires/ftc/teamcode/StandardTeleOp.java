@@ -40,41 +40,23 @@ import com.qualcomm.robotcore.util.Range;
 public class StandardTeleOp extends OpMode{
 
     /* Declare OpMode members. */
-    HardwareRobot iceRobot = new HardwareRobot(); // use the class created to define a Pushbot's hardware
-                                                         // could also use HardwarePushbotMatrix class.
+    HardwareRobot iceRobot = new HardwareRobot(); // creates object of the robot hardware class
 
-     /* Code to run ONCE when the driver hits INIT
-     */
     @Override
     public void init() {
-        /* Initialize the hardware variables.
-         * The init() method of the hardware class does all the work here
-         */
-        iceRobot.init(hardwareMap);
+        iceRobot.init(hardwareMap); // initialises motors and servos
 
-        // Send telemetry message to signify robot waiting;
-        telemetry.addData("Say", "Hello Driver");    //
+        telemetry.addData("Say", "Hello Driver");
 
-        iceRobot.resetEncoder();
+        iceRobot.resetEncoder(); // resets arm encoder
     }
 
-    /*
-     * Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY
-     */
     @Override
-    public void init_loop() {
-    }
+    public void init_loop() { }
 
-    /*
-     * Code to run ONCE when the driver hits PLAY
-     */
     @Override
-    public void start() {
-    }
+    public void start() { }
 
-    /*
-     * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
-     */
     @Override
     public void loop() {
         double drive;
@@ -83,20 +65,19 @@ public class StandardTeleOp extends OpMode{
         double downClimb;
         double joyClimb;
         double maxClimbPower = 100 /* percent */ /100.0; // maximum speed of climb motor
-        int maxclimb= 100;
-        int minclimb = -3000;
+        int maxclimb= 100; // maximum value for climb motor encoder
+        int minclimb = -3000; // minimum value
         boolean clawClosed = false;
-        boolean armMode2 = gamepad1.y;
+        boolean armMode2 = gamepad1.y; // specifies whether controller is in arm or drive mode
 
-        int climbpos = iceRobot.climbMotor.getCurrentPosition();
+        int climbpos = iceRobot.climbMotor.getCurrentPosition(); // finds current position of climb motor
 
-        // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
         drive=0;
         turn=0;
         //drive = (gamepad2.left_stick_y*-.25);
         //turn = (gamepad2.left_stick_x*.25)
 
-        if(!armMode2) {
+        if(!armMode2) {  // if in
             drive += -gamepad1.left_stick_y;
             turn += gamepad1.right_stick_x* 0.5;
         }
@@ -142,7 +123,7 @@ public class StandardTeleOp extends OpMode{
 
 
         double pivotPower = gamepad2.left_stick_y;
-        if(armMode2){ pivotPower += gamepad1.left_stick_y; }
+        if(armMode2){ pivotPower += -gamepad1.left_stick_y; }
         iceRobot.pivotMotor.setPower(pivotPower);
 
         double gripStrength = (gamepad2.left_trigger-gamepad2.right_trigger)*2;
