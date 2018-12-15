@@ -39,7 +39,7 @@ import org.firstinspires.ftc.robotcore.internal.system.Deadline;
 
 import java.util.concurrent.TimeUnit;
 
-/**
+/*
  * Display patterns of a REV Robotics Blinkin LED Driver.
  * AUTO mode cycles through all of the patterns.
  * MANUAL mode allows the user to manually change patterns using the
@@ -53,12 +53,12 @@ import java.util.concurrent.TimeUnit;
 @Disabled
 public class SampleRevBlinkinLedDriver extends OpMode {
 
-    /**
+    /*
      * Change the pattern every 10 seconds in AUTO mode.
      */
     private final static int LED_PERIOD = 10;
 
-    /**
+    /*
      * Rate limit gamepad button presses to every 500ms.
      */
     private final static int GAMEPAD_LOCKOUT = 500;
