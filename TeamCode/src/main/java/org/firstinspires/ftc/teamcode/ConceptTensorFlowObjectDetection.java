@@ -29,6 +29,7 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -50,7 +51,7 @@ import java.util.List;
  * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
  * is explained below.
  */
-@TeleOp(name = "Concept: TensorFlow Object Detection", group = "Concept")
+@TeleOp(name = "Concept: TensorFlow Object Detection with roi", group = "test")
 //@Disabled
 public class ConceptTensorFlowObjectDetection extends LinearOpMode {
     private static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
@@ -113,9 +114,10 @@ public class ConceptTensorFlowObjectDetection extends LinearOpMode {
                     List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
                     List<Recognition> RoiRecognitions=updatedRecognitions;
                     if (updatedRecognitions != null) {
+                        telemetry.addData("# Object Detected.", updatedRecognitions.size());
                         RoiRecognitions.clear();
                         for (Recognition recognition : updatedRecognitions) {
-                            if (recognition.getLeft()>gamepad1.right_trigger*2000) {
+                            if (true) {
                                 RoiRecognitions.add(recognition);
                                 telemetry.addData("found:","thing");
                             }
