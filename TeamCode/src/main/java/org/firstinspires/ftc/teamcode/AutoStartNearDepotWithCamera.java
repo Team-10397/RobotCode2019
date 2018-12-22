@@ -29,8 +29,10 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
@@ -50,7 +52,9 @@ import java.util.List;
  * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
  * is explained below.
  */
-public class CameraHelper {
+@Autonomous(name = "Auto Start Near Depot Camera", group = "Camera")
+//@Disabled
+public class AutoStartNearDepotWithCamera extends LinearOpMode {
     private static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
     private static final String LABEL_GOLD_MINERAL = "Gold Mineral";
     private static final String LABEL_SILVER_MINERAL = "Silver Mineral";
@@ -81,8 +85,27 @@ public class CameraHelper {
      */
     private TFObjectDetector tfod;
 
+    // Declare OpMode members.
+    private ElapsedTime runtime = new ElapsedTime();
+
+    HardwareRobot iceRobot = new HardwareRobot();
+    int state = 0; // TODO: use enums
+    int goldSpot = 0;
+
     @Override
-    public void init() {
+
+    public void runOpMode() {
+        telemetry.addData("Status", "Initialized");
+        telemetry.update();
+
+        iceRobot.init(hardwareMap);
+
+        waitForStart();
+
+
+
+
+
         // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
         // first.
         initVuforia();
@@ -95,52 +118,120 @@ public class CameraHelper {
 
         /** Wait for the game to begin */
         telemetry.addData(">", "Press Play to start tracking");
+        telemetry.addData("scanning",this.getRuntime());
         telemetry.update();
+
         waitForStart();
 
-        /** Activate Tensor Flow Object Detection. */
-        if (tfod != null) {
-            tfod.activate();
-        }
-    }
-
-        public int scanMinerals() {
+        if (opModeIsActive()) {
+            /** Activate Tensor Flow Object Detection. */
             if (tfod != null) {
-                // getUpdatedRecognitions() will return null if no new information is available since
-                // the last time that call was made.
-                List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
-                if (updatedRecognitions != null) {
-                  telemetry.addData("# Object Detected", updatedRecognitions.size());
-                  if (updatedRecognitions.size() == 3) {
-                    int goldMineralX = -1;
-                    int silverMineral1X = -1;
-                    int silverMineral2X = -1;
-                    for (Recognition recognition : updatedRecognitions) {
-                      if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
-                        goldMineralX = (int) recognition.getLeft();
-                      } else if (silverMineral1X == -1) {
-                        silverMineral1X = (int) recognition.getLeft();
-                      } else {
-                        silverMineral2X = (int) recognition.getLeft();
-                      }
+                tfod.activate();
+            }
+
+            this.resetStartTime();
+            while (this.getRuntime()<5) {
+                telemetry.addData("scanning",this.getRuntime());
+                telemetry.update()
+                if (tfod != null) {
+                    // getUpdatedRecognitions() will return null if no new information is available since
+                    // the last time that call was made.
+                    List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
+                    if (updatedRecognitions != null) {
+                        telemetry.addData("# Object Detected", updatedRecognitions.size());
+                        if (updatedRecognitions.size() == 3) {
+                            int goldMineralX = -1;
+                            int silverMineral1X = -1;
+                            int silverMineral2X = -1;
+                            for (Recognition recognition : updatedRecognitions) {
+                                if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
+                                    goldMineralX = (int) recognition.getLeft();
+                                } else if (silverMineral1X == -1) {
+                                    silverMineral1X = (int) recognition.getLeft();
+                                } else {
+                                    silverMineral2X = (int) recognition.getLeft();
+                                }
+                            }
+                            if (goldMineralX != -1 && silverMineral1X != -1 && silverMineral2X != -1) {
+                                if (goldMineralX < silverMineral1X && goldMineralX < silverMineral2X) {
+                                    goldSpot = 1; //left
+                                } else if (goldMineralX > silverMineral1X && goldMineralX > silverMineral2X) {
+                                    goldSpot = 3; //right
+                                } else {
+                                    goldSpot = 2; //center
+                                }
+                            }
+                        }
+                        telemetry.update();
                     }
-                    if (goldMineralX != -1 && silverMineral1X != -1 && silverMineral2X != -1) {
-                      if (goldMineralX < silverMineral1X && goldMineralX < silverMineral2X) {
-                        return 0;
-                      } else if (goldMineralX > silverMineral1X && goldMineralX > silverMineral2X) {
-                        return 2;
-                      } else {
-                        return 1;
-                      }
-                    }
-                  }
-                  telemetry.update();
                 }
             }
+            telemetry.addData("gold is",goldSpot);
+            while (opModeIsActive()){
+                switch (state){
+                    case 0: // drops from the lander
+                        iceRobot.climbMotor.setPower(-1);
+                        if (iceRobot.climbMotor.getCurrentPosition() < -3000){
+                            iceRobot.climbMotor.setPower(0);
+                            state += 1;
+                        }
+                        break;
+                    case 1: // turns to unlatch from lander
+                        iceRobot.encoderTurn(15);
+                        sleep(500);
+                        iceRobot.encoderMove(-3,.50, this);
+                        sleep(500);
+                        state += 1;
+                        break;
+
+                    case 2: // lowers climbing arm
+                        iceRobot.climbMotor.setPower(1);
+                        double start_time = runtime.milliseconds();
+                        if (iceRobot.climbMotor.getCurrentPosition() > -1000 || runtime.milliseconds() - start_time > 750){
+                            iceRobot.climbMotor.setPower(0);
+                            sleep(1000);
+                            state += 2;
+                        }
+                        break;
+                    case 3: // turns to right itself
+                        iceRobot.encoderTurn(-15);
+                        sleep(500);
+                        state += 1;
+                        break;
+                    case 4: // backs into the depot
+                        iceRobot.encoderMove(-50,1, this);
+                        sleep(500);
+                        state += 1;
+                        break;
+                    case 5: // drops the team marker
+                        iceRobot.rightClaw.setPosition(iceRobot.SERVO_CENTER);
+                        sleep(1000);
+                        state += 2;
+                        break;
+                    case 7: // goes forward to ensure team marker iss dropped
+                        iceRobot.encoderTurn(45);
+                        sleep(500);
+                        iceRobot.stop();
+                        state += 1;
+                        break;
+                    case 8:
+                        iceRobot.encoderMove(50,.75, this);
+                        sleep(500);
+                        iceRobot.encoderMove(25,.1, this);
+                        state += 1;
+                        break;
+                }
+
+
+            }
+
+
+        }
+
+        if (tfod != null) {
+            tfod.shutdown();
         }
     }
-
-
 
     /**
      * Initialize the Vuforia localization engine.
