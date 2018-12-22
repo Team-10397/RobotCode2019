@@ -130,9 +130,9 @@ public class AutoStartNearDepotWithCamera extends LinearOpMode {
             }
 
             this.resetStartTime();
-            while (this.getRuntime()<5) {
-                telemetry.addData("scanning",this.getRuntime());
-                telemetry.update()
+            while (this.getRuntime() < 5) {
+                telemetry.addData("scanning", this.getRuntime());
+                telemetry.update();
                 if (tfod != null) {
                     // getUpdatedRecognitions() will return null if no new information is available since
                     // the last time that call was made.
@@ -166,8 +166,10 @@ public class AutoStartNearDepotWithCamera extends LinearOpMode {
                     }
                 }
             }
+        }
             telemetry.addData("gold is",goldSpot);
             while (opModeIsActive()){
+                telemetry.update();
                 switch (state){
                     case 0: // drops from the lander
                         iceRobot.climbMotor.setPower(-1);
@@ -198,23 +200,37 @@ public class AutoStartNearDepotWithCamera extends LinearOpMode {
                         sleep(500);
                         state += 1;
                         break;
-                    case 4: // backs into the depot
+                    case 4: // decides which way to go
+                        state += goldSpot;
+                        break;
+                    case 5:
+                        iceRobot.encoderTurn(45);
+                        state += 1;
+                        break;
+                    case 6:
+                        state += 1;
+                        break;
+                    case 7:
+                        iceRobot.encoderTurn(-45);
+                        state += 1;
+                        break;
+                    case 8: // backs into the depot
                         iceRobot.encoderMove(-50,1, this);
                         sleep(500);
                         state += 1;
                         break;
-                    case 5: // drops the team marker
+                    case 9: // drops the team marker
                         iceRobot.rightClaw.setPosition(iceRobot.SERVO_CENTER);
                         sleep(1000);
                         state += 2;
                         break;
-                    case 7: // goes forward to ensure team marker iss dropped
+                    case 10: // goes forward to ensure team marker iss dropped
                         iceRobot.encoderTurn(45);
                         sleep(500);
                         iceRobot.stop();
                         state += 1;
                         break;
-                    case 8:
+                    case 11:
                         iceRobot.encoderMove(50,.75, this);
                         sleep(500);
                         iceRobot.encoderMove(25,.1, this);
@@ -226,7 +242,7 @@ public class AutoStartNearDepotWithCamera extends LinearOpMode {
             }
 
 
-        }
+
 
         if (tfod != null) {
             tfod.shutdown();
