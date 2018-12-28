@@ -113,6 +113,10 @@ public class AutoStartNearDepotWithCamera extends LinearOpMode {
             telemetry.addData("Sorry!", "This device is not compatible with TFOD");
         }
 
+        if (tfod != null) {
+            tfod.activate();
+        }
+        
         /** Wait for the game to begin */
         telemetry.addData(">", "Press Play to start tracking");
         telemetry.addData("scanning",this.getRuntime());
@@ -123,9 +127,7 @@ public class AutoStartNearDepotWithCamera extends LinearOpMode {
 
         if (opModeIsActive()) {
             /** Activate Tensor Flow Object Detection. */
-            if (tfod != null) {
-                tfod.activate();
-            }
+
 
             while (goldSpot == 0 && opModeIsActive()) {
                 telemetry.addData("scanning", this.getRuntime());
@@ -142,11 +144,11 @@ public class AutoStartNearDepotWithCamera extends LinearOpMode {
                             int silverMineral2X = -1;
                             for (Recognition recognition : updatedRecognitions) {
                                 if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
-                                    goldMineralX = (int) recognition.getLeft();
+                                    goldMineralX = (int) recognition.getTop();
                                 } else if (silverMineral1X == -1) {
-                                    silverMineral1X = (int) recognition.getLeft();
+                                    silverMineral1X = (int) recognition.getTop();
                                 } else {
-                                    silverMineral2X = (int) recognition.getLeft();
+                                    silverMineral2X = (int) recognition.getTop();
                                 }
                             }
                             if (silverMineral1X != -1 && silverMineral2X != -1 && goldMineralX == -1) {
