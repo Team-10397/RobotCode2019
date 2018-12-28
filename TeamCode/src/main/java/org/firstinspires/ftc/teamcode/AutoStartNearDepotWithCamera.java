@@ -108,64 +108,53 @@ public class AutoStartNearDepotWithCamera extends LinearOpMode {
         initVuforia();
 
         if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
-            initTfod();
+            initTfod(); // initializes the camera
         } else {
             telemetry.addData("Sorry!", "This device is not compatible with TFOD");
         }
 
         if (tfod != null) {
-            tfod.activate();
+            tfod.activate(); // initializes the mineral detection
         }
-        
-        /** Wait for the game to begin */
-        telemetry.addData(">", "Press Play to start tracking");
-        telemetry.addData("scanning",this.getRuntime());
-        telemetry.update();
+
 
         waitForStart();
-        this.resetStartTime();
+        this.resetStartTime(); // resets timer (for debugging purposes)
 
         if (opModeIsActive()) {
-            /** Activate Tensor Flow Object Detection. */
-
-
-            while (goldSpot == 0 && opModeIsActive()) {
-                telemetry.addData("scanning", this.getRuntime());
+            while (goldSpot == 0 && opModeIsActive()) { //this loop runs until an object is detected or the program stops
+                telemetry.addData("scanning", this.getRuntime()); //updates the display with the time since the scan started
                 telemetry.update();
                 if (tfod != null) {
-                    // getUpdatedRecognitions() will return null if no new information is available since
-                    // the last time that call was made.
-                    List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
+                    List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions(); // puts all of the scanned minerals in a list
                     if (updatedRecognitions != null) {
-                        telemetry.addData("# Object Detected", updatedRecognitions.size());
-                        if (updatedRecognitions.size() == 2) {
-                            int goldMineralX = -1;
+                        if (updatedRecognitions.size() == 2) { // the following code runs if there are two minerals tat the robot sees
+                            int goldMineralX = -1; //  sets the mineral positions to a default value
                             int silverMineral1X = -1;
                             int silverMineral2X = -1;
-                            for (Recognition recognition : updatedRecognitions) {
+                            for (Recognition recognition : updatedRecognitions) { // code loops for every mineral that is detected
                                 if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
-                                    goldMineralX = (int) recognition.getTop();
+                                    goldMineralX = (int) recognition.getTop(); // if a gold mineral is detected, its position i recorded
                                 } else if (silverMineral1X == -1) {
-                                    silverMineral1X = (int) recognition.getTop();
+                                    silverMineral1X = (int) recognition.getTop(); // if silver elements are detected, their positions are recorded.
                                 } else {
                                     silverMineral2X = (int) recognition.getTop();
                                 }
                             }
-                            if (silverMineral1X != -1 && silverMineral2X != -1 && goldMineralX == -1) {
+                            if (silverMineral1X != -1 && silverMineral2X != -1 && goldMineralX == -1) { //if two silver minerals are found, then the gold is on the left [] O O (the robot only scans for the right two minerals)
                                 goldSpot = 1; //left
-                            } else if (goldMineralX < silverMineral1X) {
+                            } else if (goldMineralX < silverMineral1X) { // gold to the left of silver: O [] O
                                 goldSpot = 2; //center
-                            } else if (goldMineralX > silverMineral1X) {
+                            } else if (goldMineralX > silverMineral1X) { // gold to the right of silver: O O []
                                 goldSpot = 3; //right
                             }
                         }
-                        telemetry.update();
                     }
                 }
             }
         }
-            telemetry.addData("gold is",goldSpot);
-            telemetry.addData("time took", this.getRuntime()+" seconds");
+            telemetry.addData("gold is",goldSpot); //  displays the position of the gold mineral
+            telemetry.addData("time took", this.getRuntime()+" seconds"); // displays the time taken to scan
             while (opModeIsActive()){
                 telemetry.update();
                 switch (state){
