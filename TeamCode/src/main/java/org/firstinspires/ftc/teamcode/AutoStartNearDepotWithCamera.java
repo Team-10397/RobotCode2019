@@ -100,9 +100,6 @@ public class AutoStartNearDepotWithCamera extends LinearOpMode {
 
         iceRobot.init(hardwareMap);
 
-        waitForStart();
-
-
 
 
 
@@ -122,6 +119,7 @@ public class AutoStartNearDepotWithCamera extends LinearOpMode {
         telemetry.update();
 
         waitForStart();
+        this.resetStartTime();
 
         if (opModeIsActive()) {
             /** Activate Tensor Flow Object Detection. */
@@ -129,8 +127,7 @@ public class AutoStartNearDepotWithCamera extends LinearOpMode {
                 tfod.activate();
             }
 
-            this.resetStartTime();
-            while ((this.getRuntime() < 1 || (goldSpot == 0))&& opModeIsActive()) {
+            while (goldSpot == 0 && opModeIsActive()) {
                 telemetry.addData("scanning", this.getRuntime());
                 telemetry.update();
                 if (tfod != null) {
@@ -166,7 +163,7 @@ public class AutoStartNearDepotWithCamera extends LinearOpMode {
             }
         }
             telemetry.addData("gold is",goldSpot);
-            telemetry.addData("time took", Math.round(this.getRuntime())+" seconds");
+            telemetry.addData("time took", this.getRuntime()+" seconds");
             while (opModeIsActive()){
                 telemetry.update();
                 switch (state){
