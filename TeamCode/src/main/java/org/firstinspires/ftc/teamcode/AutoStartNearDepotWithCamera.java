@@ -130,7 +130,7 @@ public class AutoStartNearDepotWithCamera extends LinearOpMode {
             }
 
             this.resetStartTime();
-            while (this.getRuntime() < 5) {
+            while (this.getRuntime() < 5 || (goldSpot == 0)) {
                 telemetry.addData("scanning", this.getRuntime());
                 telemetry.update();
                 if (tfod != null) {
