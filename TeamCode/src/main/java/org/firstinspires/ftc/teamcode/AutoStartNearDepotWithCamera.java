@@ -130,7 +130,7 @@ public class AutoStartNearDepotWithCamera extends LinearOpMode {
             }
 
             this.resetStartTime();
-            while (this.getRuntime() < 5 || (goldSpot == 0)) {
+            while ((this.getRuntime() < 1 || (goldSpot == 0))&& opModeIsActive()) {
                 telemetry.addData("scanning", this.getRuntime());
                 telemetry.update();
                 if (tfod != null) {
@@ -168,6 +168,7 @@ public class AutoStartNearDepotWithCamera extends LinearOpMode {
             }
         }
             telemetry.addData("gold is",goldSpot);
+            telemetry.addData("time took", Math.round(this.getRuntime())+" seconds");
             while (opModeIsActive()){
                 telemetry.update();
                 switch (state){
