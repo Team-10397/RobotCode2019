@@ -139,7 +139,7 @@ public class AutoStartNearDepotWithCamera extends LinearOpMode {
                     List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
                     if (updatedRecognitions != null) {
                         telemetry.addData("# Object Detected", updatedRecognitions.size());
-                        if (updatedRecognitions.size() == 3) {
+                        if (updatedRecognitions.size() == 2) {
                             int goldMineralX = -1;
                             int silverMineral1X = -1;
                             int silverMineral2X = -1;
@@ -152,14 +152,12 @@ public class AutoStartNearDepotWithCamera extends LinearOpMode {
                                     silverMineral2X = (int) recognition.getLeft();
                                 }
                             }
-                            if (goldMineralX != -1 && silverMineral1X != -1 && silverMineral2X != -1) {
-                                if (goldMineralX < silverMineral1X && goldMineralX < silverMineral2X) {
-                                    goldSpot = 1; //left
-                                } else if (goldMineralX > silverMineral1X && goldMineralX > silverMineral2X) {
-                                    goldSpot = 3; //right
-                                } else {
-                                    goldSpot = 2; //center
-                                }
+                            if (silverMineral1X != -1 && silverMineral2X != -1 && goldMineralX == -1) {
+                                goldSpot = 1; //left
+                            } else if (goldMineralX < silverMineral1X) {
+                                goldSpot = 2; //center
+                            } else if (goldMineralX > silverMineral1X) {
+                                goldSpot = 3; //right
                             }
                         }
                         telemetry.update();
