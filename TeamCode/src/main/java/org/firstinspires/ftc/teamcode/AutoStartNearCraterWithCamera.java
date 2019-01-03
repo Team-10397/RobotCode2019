@@ -33,6 +33,10 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.ClassFactory;
+
+import java.util.List;
+
 
 /**
  * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
@@ -55,6 +59,7 @@ public class AutoStartNearCraterWithCamera extends LinearOpMode {
 
     HardwareRobot iceRobot = new HardwareRobot();
     int state = 0; // TODO: use enums
+    int goldSpot = 0;
 
     @Override
 
@@ -64,8 +69,61 @@ public class AutoStartNearCraterWithCamera extends LinearOpMode {
 
         iceRobot.init(hardwareMap);
 
-        waitForStart();
 
+
+
+        // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
+        // first.
+        initVuforia();
+
+        if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
+            initTfod(); // initializes the camera
+        } else {
+            telemetry.addData("Sorry!", "This device is not compatible with TFOD");
+        }
+
+        if (tfod != null) {
+            tfod.activate(); // initializes the mineral detection
+        }
+
+
+        waitForStart();
+        this.resetStartTime(); // resets timer (for debugging purposes)
+
+        if (opModeIsActive()) {
+            while (goldSpot == 0 && opModeIsActive()) { //this loop runs until an object is detected or the program stops
+                telemetry.addData("scanning", this.getRuntime()); //updates the display with the time since the scan started
+                telemetry.update();
+                if (tfod != null) {
+                    List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions(); // puts all of the scanned minerals in a list
+                    if (updatedRecognitions != null) {
+                        if (updatedRecognitions.size() == 2) { // the following code runs if the robot sees 2 minerals
+                            int goldMineralX = -1; //  defining minerals
+                            int silverMineral1X = -1;
+                            int silverMineral2X = -1;
+                            for (Recognition recognition : updatedRecognitions) { // code loops for every mineral that is detected
+                                if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
+                                    goldMineralX = (int) recognition.getTop(); // if a gold mineral is detected, its position is recorded
+                                } else if (silverMineral1X == -1) {
+                                    silverMineral1X = (int) recognition.getTop(); // if silver elements are detected, their positions are recorded.
+                                } else {
+                                    silverMineral2X = (int) recognition.getTop();
+                                }
+                            }
+                            if (silverMineral1X != -1 && silverMineral2X != -1 && goldMineralX == -1) { //if two silver minerals are found, then the gold is on the left [] O O (the robot only scans for the right two minerals)
+                                goldSpot = 1; //left
+                            } else if (goldMineralX < silverMineral1X) { // gold to the left of silver: O [] O
+                                goldSpot = 2; //center
+                            } else if (goldMineralX > silverMineral1X) { // gold to the right of silver: O O []
+                                goldSpot = 3; //right
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        telemetry.addData("gold is",goldSpot); //  displays the position of the gold mineral
+        telemetry.addData("time took", this.getRuntime()+" seconds"); // displays the time taken to scan
         while (opModeIsActive()){
             switch (state){
                 case 0: // drops from the lander
