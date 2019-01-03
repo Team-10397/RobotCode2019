@@ -31,12 +31,16 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection;
+import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
 import java.util.List;
-
 
 /**
  * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
@@ -70,8 +74,6 @@ public class AutoStartNearCraterWithCamera extends LinearOpMode {
         iceRobot.init(hardwareMap);
 
 
-
-
         // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
         // first.
         initVuforia();
@@ -97,17 +99,19 @@ public class AutoStartNearCraterWithCamera extends LinearOpMode {
                 if (tfod != null) {
                     List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions(); // puts all of the scanned minerals in a list
                     if (updatedRecognitions != null) {
-                        if (updatedRecognitions.size() == 2) { // the following code runs if the robot sees 2 minerals
+                        if (updatedRecognitions.size() <= 2) { // the following code runs if the robot sees at least 2 minerals
                             int goldMineralX = -1; //  defining minerals
                             int silverMineral1X = -1;
                             int silverMineral2X = -1;
                             for (Recognition recognition : updatedRecognitions) { // code loops for every mineral that is detected
-                                if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
-                                    goldMineralX = (int) recognition.getTop(); // if a gold mineral is detected, its position is recorded
-                                } else if (silverMineral1X == -1) {
-                                    silverMineral1X = (int) recognition.getTop(); // if silver elements are detected, their positions are recorded.
-                                } else {
-                                    silverMineral2X = (int) recognition.getTop();
+                                if (recognition.getLeft() < 100) {
+                                    if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
+                                        goldMineralX = (int) recognition.getTop(); // if a gold mineral is detected, its position is recorded
+                                    } else if (silverMineral1X == -1) {
+                                        silverMineral1X = (int) recognition.getTop(); // if silver elements are detected, their positions are recorded.
+                                    } else {
+                                        silverMineral2X = (int) recognition.getTop();
+                                    }
                                 }
                             }
                             if (silverMineral1X != -1 && silverMineral2X != -1 && goldMineralX == -1) { //if two silver minerals are found, then the gold is on the left [] O O (the robot only scans for the right two minerals)
@@ -122,13 +126,13 @@ public class AutoStartNearCraterWithCamera extends LinearOpMode {
                 }
             }
         }
-        telemetry.addData("gold is",goldSpot); //  displays the position of the gold mineral
-        telemetry.addData("time took", this.getRuntime()+" seconds"); // displays the time taken to scan
-        while (opModeIsActive()){
-            switch (state){
+        telemetry.addData("gold is", goldSpot); //  displays the position of the gold mineral
+        telemetry.addData("time took", this.getRuntime() + " seconds"); // displays the time taken to scan
+        while (opModeIsActive()) {
+            switch (state) {
                 case 0: // drops from the lander
                     iceRobot.climbMotor.setPower(-1);
-                    if (iceRobot.climbMotor.getCurrentPosition() < -3000){
+                    if (iceRobot.climbMotor.getCurrentPosition() < -3000) {
                         iceRobot.climbMotor.setPower(0);
                         state += 1;
                     }
@@ -136,7 +140,7 @@ public class AutoStartNearCraterWithCamera extends LinearOpMode {
                 case 1: // turns to unlatch from lander
                     iceRobot.encoderTurn(15);
                     sleep(500);
-                    iceRobot.encoderMove(-3,.50, this);
+                    iceRobot.encoderMove(-3, .50, this);
                     sleep(500);
                     state += 1;
                     break;
@@ -144,7 +148,7 @@ public class AutoStartNearCraterWithCamera extends LinearOpMode {
                 case 2: // lowers climbing arm
                     iceRobot.climbMotor.setPower(1);
                     double start_time = runtime.milliseconds();
-                    if (iceRobot.climbMotor.getCurrentPosition() > -1000 || runtime.milliseconds() - start_time > 750){
+                    if (iceRobot.climbMotor.getCurrentPosition() > -1000 || runtime.milliseconds() - start_time > 750) {
                         iceRobot.climbMotor.setPower(0);
                         sleep(1000);
                         state += 2;
@@ -156,43 +160,84 @@ public class AutoStartNearCraterWithCamera extends LinearOpMode {
                     state += 1;
                     break;
                 case 4: // backs towards the crater
-                    iceRobot.encoderMove(-25,1, this);
+                    iceRobot.encoderMove(-10, 1, this);
                     sleep(500);
-                    iceRobot.encoderMove(10,.5,this);
-                    sleep(500);
-                    state += 1;
+                    state += goldSpot;
                     break;
                 case 5:
+                    iceRobot.encoderTurn(45);
+                    sleep(500);
+                    iceRobot.encoderMove(-25, .5, this);
+                    sleep(500);
+                    iceRobot.encoderMove(25, 1, this);
+                    state = 8;
+                    break;
+                case 6:
+                    iceRobot.encoderMove(-18, .5, this);
+                    sleep(500);
+                    iceRobot.encoderMove(18, 1, this);
+                    state = 8;
+                    break;
+                case 7:
+                    iceRobot.encoderTurn(-45);
+                    sleep(500);
+                    iceRobot.encoderMove(-25, .5, this);
+                    sleep(500);
+                    iceRobot.encoderMove(25, 1, this);
+                    state = 8;
+                    break;
+                case 8:
                     iceRobot.encoderTurn(90);
                     sleep(500);
-                    iceRobot.encoderMove(40,.8,this);
+                    iceRobot.encoderMove(40, .8, this);
                     sleep(500);
                     iceRobot.encoderTurn(-10);
                     sleep(500);
-                    iceRobot.encoderMove(40,1,this);
+                    iceRobot.encoderMove(40, 1, this);
                     sleep(500);
                     iceRobot.encoderTurn(-180);
                     sleep(500);
                     state += 1;
                     break;
-                case 6: // drops the team marker
+                case 9: // drops the team marker
                     iceRobot.rightClaw.setPosition(iceRobot.SERVO_CENTER);
                     sleep(1000);
                     state += 1;
                     break;
-                case 7:
-                    iceRobot.encoderMove(50,.75, this);
+                case 10:
+                    iceRobot.encoderMove(50, .75, this);
                     sleep(500);
-                    iceRobot.encoderMove(25,.1, this);
+                    iceRobot.encoderMove(25, .1, this);
                     state += 1;
                     break;
             }
 
 
         }
+    }
+    private void initVuforia() {
+        /*
+         * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
+         */
+        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
+        parameters.vuforiaLicenseKey = VUFORIA_KEY;
+        parameters.cameraDirection = CameraDirection.BACK;
 
+        //  Instantiate the Vuforia engine
+        vuforia = ClassFactory.getInstance().createVuforia(parameters);
 
+        // Loading trackables is not necessary for the Tensor Flow Object Detection engine.
+    }
 
+    /**
+     * Initialize the Tensor Flow Object Detection engine.
+     */
+    private void initTfod() {
+        int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
+                "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
+        tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
+        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_GOLD_MINERAL, LABEL_SILVER_MINERAL);
     }
 }
