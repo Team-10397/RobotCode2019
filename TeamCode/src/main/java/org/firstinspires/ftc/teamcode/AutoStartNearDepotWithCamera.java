@@ -153,80 +153,81 @@ public class AutoStartNearDepotWithCamera extends LinearOpMode {
                 }
             }
         }
-            telemetry.addData("gold is",goldSpot); //  displays the position of the gold mineral
-            telemetry.addData("time took", this.getRuntime()+" seconds"); // displays the time taken to scan
-            while (opModeIsActive()){
-                telemetry.update();
-                switch (state){
-                    case 0: // drops from the lander
-                        iceRobot.climbMotor.setPower(-1);
-                        if (iceRobot.climbMotor.getCurrentPosition() < -3000){
-                            iceRobot.climbMotor.setPower(0);
-                            state += 1;
-                        }
-                        break;
-                    case 1: // turns to unlatch from lander
-                        iceRobot.encoderTurn(15);
-                        sleep(500);
-                        iceRobot.encoderMove(-3,.50, this);
-                        sleep(500);
+        telemetry.addData("gold is",goldSpot); //  displays the position of the gold mineral
+        telemetry.addData("time took", this.getRuntime()+" seconds"); // displays the time taken to scan
+        telemetry.update();
+        while (opModeIsActive()){
+            telemetry.update();
+            switch (state){
+                case 0: // drops from the lander
+                    iceRobot.climbMotor.setPower(-1);
+                    if (iceRobot.climbMotor.getCurrentPosition() < -3000){
+                        iceRobot.climbMotor.setPower(0);
                         state += 1;
-                        break;
+                    }
+                    break;
+                case 1: // turns to unlatch from lander
+                    iceRobot.encoderTurn(15);
+                    sleep(500);
+                    iceRobot.encoderMove(-3,.50, this);
+                    sleep(500);
+                    state += 1;
+                    break;
 
-                    case 2: // lowers climbing arm
-                        iceRobot.climbMotor.setPower(1);
-                        double start_time = runtime.milliseconds();
-                        if (iceRobot.climbMotor.getCurrentPosition() > -1000 || runtime.milliseconds() - start_time > 750){
-                            iceRobot.climbMotor.setPower(0);
-                            sleep(1000);
-                            state += 2;
-                        }
-                        break;
-                    case 3: // turns to right itself
-                        iceRobot.encoderTurn(-15);
-                        sleep(500);
-                        state += 1;
-                        break;
-                    case 4: // decides which way to go
-                        state += goldSpot;
-                        break;
-                    case 5:
-                        iceRobot.encoderTurn(45);
-                        state += 1;
-                        break;
-                    case 6:
-                        state += 1;
-                        break;
-                    case 7:
-                        iceRobot.encoderTurn(-45);
-                        state += 1;
-                        break;
-                    case 8: // backs into the depot
-                        iceRobot.encoderMove(-50,1, this);
-                        sleep(500);
-                        state += 1;
-                        break;
-                    case 9: // drops the team marker
-                        iceRobot.rightClaw.setPosition(iceRobot.SERVO_CENTER);
+                case 2: // lowers climbing arm
+                    iceRobot.climbMotor.setPower(1);
+                    double start_time = runtime.milliseconds();
+                    if (iceRobot.climbMotor.getCurrentPosition() > -1000 || runtime.milliseconds() - start_time > 750){
+                        iceRobot.climbMotor.setPower(0);
                         sleep(1000);
                         state += 2;
-                        break;
-                    case 10: // goes forward to ensure team marker iss dropped
-                        iceRobot.encoderTurn(45);
-                        sleep(500);
-                        iceRobot.stop();
-                        state += 1;
-                        break;
-                    case 11:
-                        iceRobot.encoderMove(50,.75, this);
-                        sleep(500);
-                        iceRobot.encoderMove(25,.1, this);
-                        state += 1;
-                        break;
-                }
-
-
+                    }
+                    break;
+                case 3: // turns to right itself
+                    iceRobot.encoderTurn(-15);
+                    sleep(500);
+                    state += 1;
+                    break;
+                case 4: // decides which way to go
+                    state += goldSpot;
+                    break;
+                case 5:
+                    iceRobot.encoderTurn(45);
+                    state += 1;
+                    break;
+                case 6:
+                    state += 1;
+                    break;
+                case 7:
+                    iceRobot.encoderTurn(-45);
+                    state += 1;
+                    break;
+                case 8: // backs into the depot
+                    iceRobot.encoderMove(-50,1, this);
+                    sleep(500);
+                    state += 1;
+                    break;
+                case 9: // drops the team marker
+                    iceRobot.rightClaw.setPosition(iceRobot.SERVO_CENTER);
+                    sleep(1000);
+                    state += 2;
+                    break;
+                case 10: // goes forward to ensure team marker iss dropped
+                    iceRobot.encoderTurn(45);
+                    sleep(500);
+                    iceRobot.stop();
+                    state += 1;
+                    break;
+                case 11:
+                    iceRobot.encoderMove(50,.75, this);
+                    sleep(500);
+                    iceRobot.encoderMove(25,.1, this);
+                    state += 1;
+                    break;
             }
+
+
+        }
 
 
 

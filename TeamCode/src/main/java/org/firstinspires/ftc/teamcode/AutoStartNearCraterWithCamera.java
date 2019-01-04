@@ -58,12 +58,22 @@ import java.util.List;
 @Autonomous(name="Autonomous Crater With Camera", group="Camera")
 public class AutoStartNearCraterWithCamera extends LinearOpMode {
 
+    private static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
+    private static final String LABEL_GOLD_MINERAL = "Gold Mineral";
+    private static final String LABEL_SILVER_MINERAL = "Silver Mineral";
+
+    private static final String VUFORIA_KEY = "AdCuaEX/////AAABmXYJgRHZxkB9gj+81cIaX+JZm4W2w3Ee2HhKucJINnuXQ8l214BoCiyEk04zmQ/1VPvo+8PY7Um3eI5rI4WnSJmEXo7jyMz2WZDkkRnA88uBCtbml8CsMSIS7J3aUcgVd9P8ocLLgwqpavhEEaUixEx/16rgzIEtuHcq5ghQzzCkqR1xvAaxnx5lWM+ixf6hBCfZEnaiUM7WjD4gflO55IpoO/CdCWQrGUw2LuUKW2J+4K6ftKwJ+B1Qdy7pt2tDrGZvMyB4AcphPuoJRCSr5NgRoNWZ+WH5LqAdzYEO0Bv7C9LeSgmSPPT7GPPDpjv6+3DO5BE6l+2uMYQQbuF11BWKKq5Xp+D5Y6l2+W97zpgP";
+
+    private VuforiaLocalizer vuforia;
+    private TFObjectDetector tfod;
+
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
 
     HardwareRobot iceRobot = new HardwareRobot();
     int state = 0; // TODO: use enums
     int goldSpot = 0;
+    int stuffInRoi = 0;
 
     @Override
 
@@ -103,8 +113,10 @@ public class AutoStartNearCraterWithCamera extends LinearOpMode {
                             int goldMineralX = -1; //  defining minerals
                             int silverMineral1X = -1;
                             int silverMineral2X = -1;
+                            stuffInRoi = 0;
                             for (Recognition recognition : updatedRecognitions) { // code loops for every mineral that is detected
                                 if (recognition.getLeft() < 100) {
+                                    stuffInRoi += 1;
                                     if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
                                         goldMineralX = (int) recognition.getTop(); // if a gold mineral is detected, its position is recorded
                                     } else if (silverMineral1X == -1) {
@@ -121,6 +133,11 @@ public class AutoStartNearCraterWithCamera extends LinearOpMode {
                             } else if (goldMineralX > silverMineral1X) { // gold to the right of silver: O O []
                                 goldSpot = 3; //right
                             }
+                            telemetry.addData("Preliminary goldspot",goldSpot);
+                            telemetry.addData("things in roi",stuffInRoi);
+                            telemetry.addData("total things",updatedRecognitions.size());
+
+
                         }
                     }
                 }
@@ -128,6 +145,7 @@ public class AutoStartNearCraterWithCamera extends LinearOpMode {
         }
         telemetry.addData("gold is", goldSpot); //  displays the position of the gold mineral
         telemetry.addData("time took", this.getRuntime() + " seconds"); // displays the time taken to scan
+        telemetry.update();
         while (opModeIsActive()) {
             switch (state) {
                 case 0: // drops from the lander
