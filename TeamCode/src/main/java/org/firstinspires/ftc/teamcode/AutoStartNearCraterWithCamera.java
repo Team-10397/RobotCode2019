@@ -173,53 +173,52 @@ public class AutoStartNearCraterWithCamera extends LinearOpMode {
                     }
                     break;
                 case 3: // turns to right itself
-                    iceRobot.encoderTurn(-15);
+                    //iceRobot.encoderTurn(-15);
                     sleep(500);
                     state += 1;
                     break;
                 case 4: // backs towards the crater
-                    iceRobot.encoderMove(-10, 1, this);
+                    iceRobot.encoderMove(-10, .5, this);
                     sleep(500);
                     state += goldSpot;
                     break;
                 case 5:
-                    iceRobot.encoderMove(-15,1,this);
-                    sleep(500);
+
                     iceRobot.encoderTurn(45);
                     sleep(500);
-                    iceRobot.encoderMove(-25, .5, this);
+                    iceRobot.encoderMove(-20, .5, this);
                     sleep(500);
-                    iceRobot.encoderMove(25, 1, this);
+                    iceRobot.encoderMove(20, 1, this);
                     sleep(500);
                     iceRobot.encoderTurn(-45);
                     state = 8;
                     break;
                 case 6:
-                    iceRobot.encoderMove(-25, 1, this);
+                    iceRobot.encoderMove(-15, 1, this);
                     sleep(500);
-                    iceRobot.encoderMove(10, 0.5, this);
+                    iceRobot.encoderMove(15, 0.5, this);
                     state = 8;
                     break;
                 case 7:
-                    iceRobot.encoderMove(-15,1,this);
                     sleep(500);
                     iceRobot.encoderTurn(-45);
                     sleep(500);
-                    iceRobot.encoderMove(-25, .5, this);
+                    iceRobot.encoderMove(-20, .5, this);
                     sleep(500);
-                    iceRobot.encoderMove(25, 1, this);
+                    iceRobot.encoderMove(20, 1, this);
                     sleep(500);
                     iceRobot.encoderTurn(45);
                     state = 8;
                     break;
                 case 8:
+                    sleep(500);
                     iceRobot.encoderTurn(90);
                     sleep(500);
-                    iceRobot.encoderMove(40, .8, this);
+                    iceRobot.encoderMove(35, .8, this);
                     sleep(500);
                     iceRobot.encoderTurn(-10);
                     sleep(500);
-                    iceRobot.encoderMove(40, 1, this);
+                    iceRobot.encoderMove(43, 1, this);
                     sleep(500);
                     iceRobot.encoderTurn(-180);
                     sleep(500);
