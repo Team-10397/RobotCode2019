@@ -183,25 +183,33 @@ public class AutoStartNearCraterWithCamera extends LinearOpMode {
                     state += goldSpot;
                     break;
                 case 5:
+                    iceRobot.encoderMove(-15,1,this);
+                    sleep(500);
                     iceRobot.encoderTurn(45);
                     sleep(500);
                     iceRobot.encoderMove(-25, .5, this);
                     sleep(500);
                     iceRobot.encoderMove(25, 1, this);
+                    sleep(500);
+                    iceRobot.encoderTurn(-45);
                     state = 8;
                     break;
                 case 6:
-                    iceRobot.encoderMove(-18, .5, this);
+                    iceRobot.encoderMove(-25, 1, this);
                     sleep(500);
-                    iceRobot.encoderMove(18, 1, this);
+                    iceRobot.encoderMove(10, 0.5, this);
                     state = 8;
                     break;
                 case 7:
+                    iceRobot.encoderMove(-15,1,this);
+                    sleep(500);
                     iceRobot.encoderTurn(-45);
                     sleep(500);
                     iceRobot.encoderMove(-25, .5, this);
                     sleep(500);
                     iceRobot.encoderMove(25, 1, this);
+                    sleep(500);
+                    iceRobot.encoderTurn(45);
                     state = 8;
                     break;
                 case 8:

@@ -37,6 +37,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -58,6 +59,8 @@ public class HardwareRobot // TODO (andrew): doesn't really matter but maybe ren
     public Servo rightClaw   = null;  // initializes servo claw
     public Servo rightGripper = null; // initializes servo gripper
     public CRServo rightHand  = null;   // init
+
+    public TouchSensor frontBumper = null; //defines touch sensor
 
 
     /* local OpMode members. */
@@ -107,6 +110,9 @@ public class HardwareRobot // TODO (andrew): doesn't really matter but maybe ren
         rightClaw = hwMap.get(Servo.class, "right_claw");
         rightGripper = hwMap.get(Servo.class,"right_gripper");
         rightHand = hwMap.get(CRServo.class,"right_hand");
+
+        //def touch sensors
+        frontBumper = hwMap.get(TouchSensor.class,"front_bumper");
 
         rightClaw.setPosition(SERVO_CLAW_CLOSED);
 

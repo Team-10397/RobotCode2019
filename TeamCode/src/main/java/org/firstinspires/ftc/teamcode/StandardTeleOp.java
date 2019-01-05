@@ -140,6 +140,7 @@ public class StandardTeleOp extends OpMode{
 
 
 
+        telemetry.addData("touch",iceRobot.frontBumper.isPressed());
         telemetry.addData("drive",  "%.2f", drive);
         telemetry.addData("turn", "%.2f", turn);
         //telemetry.addData("turn", "%g", climbpos);

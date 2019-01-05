@@ -12,6 +12,8 @@ Hub 1 (9):
         3 empty
         4 empty
         5 empty
+    digital devices:
+        0 front bumper  ("front_bumper")
 
 Hub 2 (10):
     motors:
