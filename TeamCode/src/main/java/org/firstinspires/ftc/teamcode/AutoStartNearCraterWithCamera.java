@@ -115,7 +115,7 @@ public class AutoStartNearCraterWithCamera extends LinearOpMode {
                             int silverMineral2X = -1;
                             stuffInRoi = 0;
                             for (Recognition recognition : updatedRecognitions) { // code loops for every mineral that is detected
-                                if (recognition.getLeft() < 200) {
+                                if (recognition.getLeft() > 400) {
                                     stuffInRoi += 1;
                                     if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
                                         goldMineralX = (int) recognition.getTop(); // if a gold mineral is detected, its position is recorded
