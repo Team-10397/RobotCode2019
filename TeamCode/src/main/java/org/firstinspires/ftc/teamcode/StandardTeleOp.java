@@ -42,6 +42,8 @@ public class StandardTeleOp extends OpMode{
     /* Declare OpMode members. */
     HardwareRobot iceRobot = new HardwareRobot(); // creates object of the robot hardware class
 
+    int spinnerSpeed = 0;
+
     @Override
     public void init() {
         iceRobot.init(hardwareMap); // initialises motors and servos
@@ -126,15 +128,37 @@ public class StandardTeleOp extends OpMode{
         if(armMode2){ pivotPower += -gamepad1.left_stick_y; }
         iceRobot.pivotMotor.setPower(pivotPower);
 
+
         double gripStrength = (gamepad2.left_trigger-gamepad2.right_trigger)*2;
         if (armMode2){ gripStrength += gamepad1.right_stick_y; }
         iceRobot.rightHand.setPower(gripStrength);
 
+        /*
         if (gamepad2.right_bumper || (armMode2 && gamepad1.left_bumper)) {
             iceRobot.rightGripper.setPosition(.5);
         }
         if (gamepad2.left_bumper || (armMode2 && gamepad1.right_bumper)){
             iceRobot.rightGripper.setPosition(.75);
+        }*/
+
+        if (gamepad1.dpad_up){
+            spinnerSpeed = 1;
+        }
+        if (gamepad1.dpad_left) {
+            spinnerSpeed = 0;
+        }
+        if (gamepad1.dpad_down) {
+            spinnerSpeed = -1;
+        }
+        switch (spinnerSpeed){
+            case -1:
+                iceRobot.rightGripper.setPower(-1);
+                break;
+            case 0:
+                iceRobot.rightGripper.setPower(0);
+                break;
+            case 1:
+                iceRobot.rightGripper.setPower(1);
         }
 
 
