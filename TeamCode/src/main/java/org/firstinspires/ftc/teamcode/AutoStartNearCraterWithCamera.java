@@ -170,11 +170,13 @@ public class AutoStartNearCraterWithCamera extends LinearOpMode {
                     if (iceRobot.climbMotor.getCurrentPosition() > -1000 || runtime.milliseconds() - start_time > 750) {
                         iceRobot.climbMotor.setPower(0);
                         sleep(1000);
-                        state += 2;
+                        state += 1;
                     }
                     break;
                 case 3: // turns to right itself
-                    //iceRobot.encoderTurn(-15);
+                    iceRobot.encoderMove(-3,.5,this);
+                    sleep(500);
+                    iceRobot.encoderTurn(-15);
                     sleep(500);
                     state += 1;
                     break;
@@ -191,7 +193,7 @@ public class AutoStartNearCraterWithCamera extends LinearOpMode {
                     sleep(500);
                     iceRobot.encoderMove(20, 1, this);
                     sleep(500);
-                    iceRobot.encoderTurn(45);
+                    iceRobot.encoderTurn(35);
                     state = 8;
                     break;
                 case 6:
@@ -199,7 +201,7 @@ public class AutoStartNearCraterWithCamera extends LinearOpMode {
                     sleep(500);
                     iceRobot.encoderMove(15, 0.5, this);
                     sleep(500);
-                    iceRobot.encoderTurn(90);
+                    iceRobot.encoderTurn(80);
                     state = 8;
                     break;
                 case 7:
@@ -210,16 +212,16 @@ public class AutoStartNearCraterWithCamera extends LinearOpMode {
                     sleep(500);
                     iceRobot.encoderMove(20, 1, this);
                     sleep(500);
-                    iceRobot.encoderTurn(135);
+                    iceRobot.encoderTurn(125);
                     state = 8;
                     break;
                 case 8:
                     sleep(500);
-                    iceRobot.encoderMove(35, .8, this);
+                    iceRobot.encoderMove(30, .8, this);
                     sleep(500);
-                    iceRobot.encoderTurn(-10);
+                    iceRobot.encoderTurn(-15);
                     sleep(500);
-                    iceRobot.encoderMove(43, 1, this);
+                    iceRobot.encoderMove(46, 1, this);
                     sleep(500);
                     iceRobot.encoderTurn(-200);
                     sleep(500);
@@ -238,6 +240,7 @@ public class AutoStartNearCraterWithCamera extends LinearOpMode {
                 case 11:
                     iceRobot.moveTime(.9,0);
                     if (iceRobot.frontBumper.isPressed()){
+                        iceRobot.stop();
                         state += 1;
                     }
                     break;
