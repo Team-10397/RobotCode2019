@@ -193,14 +193,20 @@ public class AutoStartNearDepotWithCamera extends LinearOpMode {
                     break;
                 case 5:
                     iceRobot.encoderTurn(45);
-                    state += 1;
+                    sleep(500);
+                    iceRobot.encoderMove(-18,.5,this);
+                    sleep(500);
+                    iceRobot.encoderTurn(-90);
+                    sleep(500);
+                    iceRobot.encoderMove(-18,.5,this);
+                    state = 8;
                     break;
                 case 6:
-                    state += 1;
+                    state = 8;
                     break;
                 case 7:
                     iceRobot.encoderTurn(-45);
-                    state += 1;
+                    state = 8;
                     break;
                 case 8: // backs into the depot
                     iceRobot.encoderMove(-50,1, this);

@@ -174,9 +174,7 @@ public class AutoStartNearCraterWithCamera extends LinearOpMode {
                     }
                     break;
                 case 3: // turns to right itself
-                    iceRobot.encoderMove(-3,.5,this);
-                    sleep(500);
-                    iceRobot.encoderTurn(-15);
+                    iceRobot.encoderTurn(-25);
                     sleep(500);
                     state += 1;
                     break;
@@ -193,15 +191,15 @@ public class AutoStartNearCraterWithCamera extends LinearOpMode {
                     sleep(500);
                     iceRobot.encoderMove(20, 1, this);
                     sleep(500);
-                    iceRobot.encoderTurn(35);
+                    iceRobot.encoderTurn(45);
                     state = 8;
                     break;
                 case 6:
-                    iceRobot.encoderMove(-15, 1, this);
+                    iceRobot.encoderMove(-10, .5, this);
                     sleep(500);
-                    iceRobot.encoderMove(15, 0.5, this);
+                    iceRobot.encoderMove(10, 0.5, this);
                     sleep(500);
-                    iceRobot.encoderTurn(80);
+                    iceRobot.encoderTurn(90);
                     state = 8;
                     break;
                 case 7:
@@ -212,7 +210,7 @@ public class AutoStartNearCraterWithCamera extends LinearOpMode {
                     sleep(500);
                     iceRobot.encoderMove(20, 1, this);
                     sleep(500);
-                    iceRobot.encoderTurn(125);
+                    iceRobot.encoderTurn(135);
                     state = 8;
                     break;
                 case 8:
