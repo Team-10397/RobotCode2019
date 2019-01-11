@@ -52,7 +52,7 @@ import java.util.List;
  * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
  * is explained below.
  */
-@Autonomous(name = "Auto Start Near Depot Camera", group = "Camera")
+@Autonomous(name = "Auto Start Near Depot Camera.", group = "Camera")
 //@Disabled
 public class AutoStartNearDepotWithCamera extends LinearOpMode {
     private static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
@@ -121,7 +121,7 @@ public class AutoStartNearDepotWithCamera extends LinearOpMode {
         waitForStart();
         this.resetStartTime(); // resets timer (for debugging purposes)
 
-        if (opModeIsActive()) {
+        /*if (opModeIsActive()) {
             while (goldSpot == 0 && opModeIsActive()) { //this loop runs until an object is detected or the program stops
                 telemetry.addData("scanning", this.getRuntime()); //updates the display with the time since the scan started
                 telemetry.update();
@@ -155,7 +155,8 @@ public class AutoStartNearDepotWithCamera extends LinearOpMode {
         }
         telemetry.addData("gold is",goldSpot); //  displays the position of the gold mineral
         telemetry.addData("time took", this.getRuntime()+" seconds"); // displays the time taken to scan
-        telemetry.update();
+        telemetry.update();*/
+        goldSpot = 2;
         while (opModeIsActive()){
             telemetry.update();
             switch (state){
@@ -167,9 +168,9 @@ public class AutoStartNearDepotWithCamera extends LinearOpMode {
                     }
                     break;
                 case 1: // turns to unlatch from lander
-                    iceRobot.encoderTurn(15);
+                    iceRobot.encoderTurn(25);
                     sleep(500);
-                    iceRobot.encoderMove(-3,.50, this);
+                    iceRobot.encoderMove(-1.5,.50, this);
                     sleep(500);
                     state += 1;
                     break;
@@ -180,11 +181,11 @@ public class AutoStartNearDepotWithCamera extends LinearOpMode {
                     if (iceRobot.climbMotor.getCurrentPosition() > -1000 || runtime.milliseconds() - start_time > 750){
                         iceRobot.climbMotor.setPower(0);
                         sleep(1000);
-                        state += 2;
+                        state += 1;
                     }
                     break;
                 case 3: // turns to right itself
-                    iceRobot.encoderTurn(-15);
+                    iceRobot.encoderTurn(-30);
                     sleep(500);
                     state += 1;
                     break;
@@ -216,9 +217,10 @@ public class AutoStartNearDepotWithCamera extends LinearOpMode {
                 case 9: // drops the team marker
                     iceRobot.rightClaw.setPosition(iceRobot.SERVO_CENTER);
                     sleep(1000);
-                    state += 2;
+                    state += 1;
                     break;
                 case 10: // goes forward to ensure team marker iss dropped
+                    iceRobot.encoderMove(5,1,this);
                     iceRobot.encoderTurn(45);
                     sleep(500);
                     iceRobot.stop();
@@ -227,8 +229,13 @@ public class AutoStartNearDepotWithCamera extends LinearOpMode {
                 case 11:
                     iceRobot.encoderMove(50,.75, this);
                     sleep(500);
-                    iceRobot.encoderMove(25,.1, this);
                     state += 1;
+                    break;
+                case 12:
+                    iceRobot.moveTime(.9,0);
+                    if (iceRobot.frontBumper.isPressed()){
+                        state += 1;
+                    }
                     break;
             }
 
