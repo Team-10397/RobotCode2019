@@ -133,14 +133,15 @@ public class StandardTeleOp extends OpMode{
         if (armMode2){ gripStrength += gamepad1.right_stick_y; }
         iceRobot.rightHand.setPower(gripStrength);
 
-        /*
+
         if (gamepad2.right_bumper || (armMode2 && gamepad1.left_bumper)) {
             iceRobot.rightGripper.setPosition(.5);
         }
         if (gamepad2.left_bumper || (armMode2 && gamepad1.right_bumper)){
             iceRobot.rightGripper.setPosition(.75);
-        }*/
+        }
 
+        /*
         if (gamepad1.dpad_up){
             spinnerSpeed = 1;
         }
@@ -159,7 +160,7 @@ public class StandardTeleOp extends OpMode{
                 break;
             case 1:
                 iceRobot.rightGripper.setPower(1);
-        }
+        }*/
 
 
 

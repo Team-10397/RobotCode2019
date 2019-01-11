@@ -56,8 +56,8 @@ public class HardwareRobot // this is the shared class between all of our opmode
 
     // Define Servos
     public Servo rightClaw   = null;  // initializes servo claw
-    //public Servo rightGripper = null; // initializes servo gripper as servo
-    public CRServo rightGripper = null; // initializes servo gripper as continuous servo
+    public Servo rightGripper = null; // initializes servo gripper as servo
+    //public CRServo rightGripper = null; // initializes servo gripper as continuous servo
     public CRServo rightHand  = null; // initializes arm wrist servo
 
     // Define Sensors
@@ -110,8 +110,8 @@ public class HardwareRobot // this is the shared class between all of our opmode
 
         // Initialize Servos
         rightClaw = hwMap.get(Servo.class, "right_claw");
-        //rightGripper = hwMap.get(Servo.class,"right_gripper");
-        rightGripper = hwMap.get(CRServo.class,"right_gripper");
+        rightGripper = hwMap.get(Servo.class,"right_gripper");
+        //rightGripper = hwMap.get(CRServo.class,"right_gripper");
         rightHand = hwMap.get(CRServo.class,"right_hand");
 
         // Initialize Sensors
@@ -120,8 +120,8 @@ public class HardwareRobot // this is the shared class between all of our opmode
         // Move servos to default positions
         rightClaw.setPosition(SERVO_CLAW_CLOSED);
 
-        //rightGripper.setPosition(.75);
-        rightGripper.setPower(0);
+        rightGripper.setPosition(.75);
+        //rightGripper.setPower(0);
         rightHand.setPower(0);
 
         // set motor directions
