@@ -162,13 +162,13 @@ public class AutoStartNearDepotWithCamera extends LinearOpMode {
             switch (state){
                 case 0: // drops from the lander
                     iceRobot.climbMotor.setPower(-1);
-                    if (iceRobot.climbMotor.getCurrentPosition() < -3000){
+                    if (iceRobot.climbMotor.getCurrentPosition() < -3523){
                         iceRobot.climbMotor.setPower(0);
                         state += 1;
                     }
                     break;
                 case 1: // turns to unlatch from lander
-                    iceRobot.encoderTurn(25);
+                    iceRobot.encoderTurn(15);
                     sleep(500);
                     iceRobot.encoderMove(-1.5,.50, this);
                     sleep(500);
@@ -190,19 +190,24 @@ public class AutoStartNearDepotWithCamera extends LinearOpMode {
                     state += 1;
                     break;
                 case 4: // decides which way to go
+                    
                     state += goldSpot;
                     break;
                 case 5:
                     iceRobot.encoderTurn(45);
                     sleep(500);
-                    iceRobot.encoderMove(-18,.5,this);
+                    iceRobot.encoderMove(-22,.5,this);
                     sleep(500);
                     iceRobot.encoderTurn(-90);
                     sleep(500);
-                    iceRobot.encoderMove(-18,.5,this);
+                    iceRobot.encoderMove(-22,.5,this);
+                    sleep(500);
+                    iceRobot.encoderTurn(45);
+                    sleep(500);
                     state = 8;
                     break;
                 case 6:
+                    iceRobot.encoderMove(-34,1,this);
                     state = 8;
                     break;
                 case 7:
@@ -220,8 +225,9 @@ public class AutoStartNearDepotWithCamera extends LinearOpMode {
                     state += 1;
                     break;
                 case 10: // goes forward to ensure team marker iss dropped
-                    iceRobot.encoderMove(5,1,this);
-                    iceRobot.encoderTurn(45);
+                    iceRobot.encoderMove(2,1,this);
+                    sleep(500);
+                    iceRobot.encoderTurn(80);
                     sleep(500);
                     iceRobot.stop();
                     state += 1;
@@ -235,6 +241,7 @@ public class AutoStartNearDepotWithCamera extends LinearOpMode {
                     iceRobot.moveTime(.9,0);
                     if (iceRobot.frontBumper.isPressed()){
                         state += 1;
+                        iceRobot.stop();
                     }
                     break;
             }

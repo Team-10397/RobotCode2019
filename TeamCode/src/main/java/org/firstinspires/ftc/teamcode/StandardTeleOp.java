@@ -68,7 +68,7 @@ public class StandardTeleOp extends OpMode{
         double joyClimb;
         double maxClimbPower = 100 /* percent */ /100.0; // maximum speed of climb motor
         int maxclimb= 100; // maximum value for climb motor encoder
-        int minclimb = -3000; // minimum value
+        int minclimb = -3523; // minimum value
         boolean clawClosed = false;
         boolean armMode2 = gamepad1.y; // specifies whether controller is in arm or drive mode
 
@@ -168,7 +168,7 @@ public class StandardTeleOp extends OpMode{
         telemetry.addData("touch",iceRobot.frontBumper.isPressed());
         telemetry.addData("drive",  "%.2f", drive);
         telemetry.addData("turn", "%.2f", turn);
-        //telemetry.addData("turn", "%g", climbpos);
+        telemetry.addData("climb", climbpos);
     }
 
     /*

@@ -151,7 +151,7 @@ public class AutoStartNearCraterWithCamera extends LinearOpMode {
             switch (state) {
                 case 0: // drops from the lander
                     iceRobot.climbMotor.setPower(-1);
-                    if (iceRobot.climbMotor.getCurrentPosition() < -3000) {
+                    if (iceRobot.climbMotor.getCurrentPosition() < -3523) {
                         iceRobot.climbMotor.setPower(0);
                         state += 1;
                     }
