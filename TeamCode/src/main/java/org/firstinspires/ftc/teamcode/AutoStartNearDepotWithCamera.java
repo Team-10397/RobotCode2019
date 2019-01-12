@@ -52,7 +52,7 @@ import java.util.List;
  * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
  * is explained below.
  */
-@Autonomous(name = "Auto Start Near Depot Camera.", group = "Camera")
+@Autonomous(name = "Auto Start Near Depot Camera", group = "Camera")
 //@Disabled
 public class AutoStartNearDepotWithCamera extends LinearOpMode {
     private static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
@@ -156,7 +156,7 @@ public class AutoStartNearDepotWithCamera extends LinearOpMode {
         telemetry.addData("gold is",goldSpot); //  displays the position of the gold mineral
         telemetry.addData("time took", this.getRuntime()+" seconds"); // displays the time taken to scan
         telemetry.update();*/
-        goldSpot = 2;
+        goldSpot = 1;
         while (opModeIsActive()){
             telemetry.update();
             switch (state){
@@ -190,15 +190,16 @@ public class AutoStartNearDepotWithCamera extends LinearOpMode {
                     state += 1;
                     break;
                 case 4: // decides which way to go
-                    
+                    iceRobot.encoderMove(-4,1,this);
+                    sleep(500);
                     state += goldSpot;
                     break;
                 case 5:
-                    iceRobot.encoderTurn(45);
+                    iceRobot.encoderTurn(40);
                     sleep(500);
                     iceRobot.encoderMove(-22,.5,this);
                     sleep(500);
-                    iceRobot.encoderTurn(-90);
+                    iceRobot.encoderTurn(-180);
                     sleep(500);
                     iceRobot.encoderMove(-22,.5,this);
                     sleep(500);
@@ -215,7 +216,7 @@ public class AutoStartNearDepotWithCamera extends LinearOpMode {
                     state = 8;
                     break;
                 case 8: // backs into the depot
-                    iceRobot.encoderMove(-50,1, this);
+                    iceRobot.encoderMove(-12,1, this);
                     sleep(500);
                     state += 1;
                     break;
