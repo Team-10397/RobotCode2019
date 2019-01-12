@@ -33,6 +33,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.vuforia.CameraDevice;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
@@ -100,9 +101,11 @@ public class AutoStartNearCraterWithCamera extends LinearOpMode {
 
 
         waitForStart();
+        CameraDevice.getInstance().setFlashTorchMode(true);
         this.resetStartTime(); // resets timer (for debugging purposes)
 
-       /* if (opModeIsActive()) {
+        
+       if (opModeIsActive()) {
             while (goldSpot == 0 && opModeIsActive()) { //this loop runs until an object is detected or the program stops
                 telemetry.addData("scanning", this.getRuntime()); //updates the display with the time since the scan started
                 telemetry.update();
@@ -111,22 +114,16 @@ public class AutoStartNearCraterWithCamera extends LinearOpMode {
                     if (updatedRecognitions != null) {
                         if (updatedRecognitions.size() <= 1) { // the following code runs if the robot sees at least 2 minerals
                             int goldMineralX = -1; //  defining minerals
-                            int silverMineral1X = -1;
-                            int silverMineral2X = -1;
                             stuffInRoi = 0;
                             for (Recognition recognition : updatedRecognitions) { // code loops for every mineral that is detected
-                                if (recognition.getLeft() > 400) {
+                                if (recognition.getLeft() > 450) {
                                     stuffInRoi += 1;
                                     if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
                                         goldMineralX = (int) recognition.getTop(); // if a gold mineral is detected, its position is recorded
-                                    } else if (silverMineral1X == -1) {
-                                        silverMineral1X = (int) recognition.getTop(); // if silver elements are detected, their positions are recorded.
-                                    } else {
-                                        silverMineral2X = (int) recognition.getTop();
                                     }
                                 }
                             }
-                            if (goldMineralX > 1000) { //if two silver minerals are found, then the gold is on the left [] O O (the robot only scans for the right two minerals)
+                            if (goldMineralX > 800) { //if two silver minerals are found, then the gold is on the left [] O O (the robot only scans for the right two minerals)
                                 goldSpot = 3; //left
                             } else if (400 < goldMineralX && goldMineralX < 600) { // gold to the left of silver: O [] O
                                 goldSpot = 2; //center
@@ -143,10 +140,11 @@ public class AutoStartNearCraterWithCamera extends LinearOpMode {
                 }
             }
         }
+        CameraDevice.getInstance().setFlashTorchMode(false) ;
         telemetry.addData("gold is", goldSpot); //  displays the position of the gold mineral
         telemetry.addData("time took", this.getRuntime() + " seconds"); // displays the time taken to scan
-        telemetry.update();*/
-       goldSpot=2;
+        telemetry.update();
+        goldSpot=2;
         while (opModeIsActive()) {
             switch (state) {
                 case 0: // drops from the lander
@@ -191,7 +189,7 @@ public class AutoStartNearCraterWithCamera extends LinearOpMode {
                     sleep(500);
                     iceRobot.encoderMove(20, 1, this);
                     sleep(500);
-                    iceRobot.encoderTurn(50);
+                    iceRobot.encoderTurn(70);
                     state = 8;
                     break;
                 case 6:
@@ -210,7 +208,7 @@ public class AutoStartNearCraterWithCamera extends LinearOpMode {
                     sleep(500);
                     iceRobot.encoderMove(20, 1, this);
                     sleep(500);
-                    iceRobot.encoderTurn(140);
+                    iceRobot.encoderTurn(150);
                     state = 8;
                     break;
                 case 8:
