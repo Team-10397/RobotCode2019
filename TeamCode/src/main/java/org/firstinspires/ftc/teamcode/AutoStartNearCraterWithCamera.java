@@ -101,10 +101,11 @@ public class AutoStartNearCraterWithCamera extends LinearOpMode {
 
 
         waitForStart();
-        CameraDevice.getInstance().setFlashTorchMode(true);
+        //CameraDevice.getInstance().setFlashTorchMode(true);
         this.resetStartTime(); // resets timer (for debugging purposes)
 
-        
+
+        /*
        if (opModeIsActive()) {
             while (goldSpot == 0 && opModeIsActive()) { //this loop runs until an object is detected or the program stops
                 telemetry.addData("scanning", this.getRuntime()); //updates the display with the time since the scan started
@@ -114,6 +115,8 @@ public class AutoStartNearCraterWithCamera extends LinearOpMode {
                     if (updatedRecognitions != null) {
                         if (updatedRecognitions.size() <= 1) { // the following code runs if the robot sees at least 2 minerals
                             int goldMineralX = -1; //  defining minerals
+                            int silverMineral1X = -1;
+                            int silverMineral2X =-1;
                             stuffInRoi = 0;
                             for (Recognition recognition : updatedRecognitions) { // code loops for every mineral that is detected
                                 if (recognition.getLeft() > 450) {
@@ -123,12 +126,12 @@ public class AutoStartNearCraterWithCamera extends LinearOpMode {
                                     }
                                 }
                             }
-                            if (goldMineralX > 800) { //if two silver minerals are found, then the gold is on the left [] O O (the robot only scans for the right two minerals)
-                                goldSpot = 3; //left
-                            } else if (400 < goldMineralX && goldMineralX < 600) { // gold to the left of silver: O [] O
+                            if (silverMineral1X != -1 && silverMineral2X != -1 && goldMineralX == -1) { //if two silver minerals are found, then the gold is on the left [] O O (the robot only scans for the right two minerals)
+                                goldSpot = 1; //left
+                            } else if (goldMineralX > silverMineral1X) { // gold to the left of silver: O [] O
                                 goldSpot = 2; //center
-                            } else if (goldMineralX == -1) { // gold to the right of silver: O O []
-                                goldSpot = 1; //right
+                            } else if (goldMineralX < silverMineral1X) { // gold to the right of silver: O O []
+                                goldSpot = 3; //right
                             }
                             telemetry.addData("Preliminary goldspot",goldSpot);
                             telemetry.addData("things in roi",stuffInRoi);
@@ -139,7 +142,7 @@ public class AutoStartNearCraterWithCamera extends LinearOpMode {
                     }
                 }
             }
-        }
+        }*/
         CameraDevice.getInstance().setFlashTorchMode(false) ;
         telemetry.addData("gold is", goldSpot); //  displays the position of the gold mineral
         telemetry.addData("time took", this.getRuntime() + " seconds"); // displays the time taken to scan
@@ -197,7 +200,7 @@ public class AutoStartNearCraterWithCamera extends LinearOpMode {
                     sleep(500);
                     iceRobot.encoderMove(9, 0.5, this);
                     sleep(500);
-                    iceRobot.encoderTurn(95);
+                    iceRobot.encoderTurn(110);
                     state = 8;
                     break;
                 case 7:
