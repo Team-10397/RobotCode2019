@@ -121,24 +121,27 @@ public class AutoStartNearDepotWithCamera extends LinearOpMode {
         waitForStart();
         this.resetStartTime(); // resets timer (for debugging purposes)
 
-        /*if (opModeIsActive()) {
+        if (opModeIsActive()) {
             while (goldSpot == 0 && opModeIsActive()) { //this loop runs until an object is detected or the program stops
+                telemetry.addData("goldspot", goldSpot);
                 telemetry.addData("scanning", this.getRuntime()); //updates the display with the time since the scan started
                 telemetry.update();
                 if (tfod != null) {
                     List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions(); // puts all of the scanned minerals in a list
                     if (updatedRecognitions != null) {
-                        if (updatedRecognitions.size() == 2) { // the following code runs if the robot sees 2 minerals
+                        if (updatedRecognitions.size() <= 2) { // the following code runs if the robot sees 2 or more minerals
                             int goldMineralX = -1; //  defining minerals
                             int silverMineral1X = -1;
                             int silverMineral2X = -1;
                             for (Recognition recognition : updatedRecognitions) { // code loops for every mineral that is detected
-                                if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
-                                    goldMineralX = (int) recognition.getTop(); // if a gold mineral is detected, its position is recorded
-                                } else if (silverMineral1X == -1) {
-                                    silverMineral1X = (int) recognition.getTop(); // if silver elements are detected, their positions are recorded.
-                                } else {
-                                    silverMineral2X = (int) recognition.getTop();
+                                if ((recognition.getLeft() > 350 && recognition.getTop() > 350)|| true) {
+                                    if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
+                                        goldMineralX = (int) recognition.getTop(); // if a gold mineral is detected, its position is recorded
+                                    } else if (silverMineral1X == -1) {
+                                        silverMineral1X = (int) recognition.getTop(); // if silver elements are detected, their positions are recorded.
+                                    } else {
+                                        silverMineral2X = (int) recognition.getTop();
+                                    }
                                 }
                             }
                             if (silverMineral1X != -1 && silverMineral2X != -1 && goldMineralX == -1) { //if two silver minerals are found, then the gold is on the left [] O O (the robot only scans for the right two minerals)
@@ -155,8 +158,7 @@ public class AutoStartNearDepotWithCamera extends LinearOpMode {
         }
         telemetry.addData("gold is",goldSpot); //  displays the position of the gold mineral
         telemetry.addData("time took", this.getRuntime()+" seconds"); // displays the time taken to scan
-        telemetry.update();*/
-        goldSpot = 1;
+        telemetry.update();
         while (opModeIsActive()){
             telemetry.update();
             switch (state){
@@ -199,11 +201,11 @@ public class AutoStartNearDepotWithCamera extends LinearOpMode {
                     sleep(500);
                     iceRobot.encoderMove(-22,.5,this);
                     sleep(500);
-                    iceRobot.encoderTurn(-180);
+                    iceRobot.encoderTurn(-90);
                     sleep(500);
                     iceRobot.encoderMove(-22,.5,this);
                     sleep(500);
-                    iceRobot.encoderTurn(45);
+                    iceRobot.encoderTurn(35);
                     sleep(500);
                     state = 8;
                     break;
@@ -213,6 +215,15 @@ public class AutoStartNearDepotWithCamera extends LinearOpMode {
                     break;
                 case 7:
                     iceRobot.encoderTurn(-45);
+                    sleep(500);
+                    iceRobot.encoderMove(-25,.5,this);
+                    sleep(500);
+                    iceRobot.encoderTurn(90);
+                    sleep(500);
+                    iceRobot.encoderMove(-22,.5,this);
+                    sleep(500);
+                    iceRobot.encoderTurn(-65);
+                    sleep(500);
                     state = 8;
                     break;
                 case 8: // backs into the depot
