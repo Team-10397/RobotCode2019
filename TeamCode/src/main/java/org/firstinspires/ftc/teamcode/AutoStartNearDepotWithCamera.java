@@ -156,6 +156,7 @@ public class AutoStartNearDepotWithCamera extends LinearOpMode {
                 }
             }
         }
+        //goldSpot = 3;
         telemetry.addData("gold is",goldSpot); //  displays the position of the gold mineral
         telemetry.addData("time took", this.getRuntime()+" seconds"); // displays the time taken to scan
         telemetry.update();
@@ -216,7 +217,7 @@ public class AutoStartNearDepotWithCamera extends LinearOpMode {
                 case 7:
                     iceRobot.encoderTurn(-45);
                     sleep(500);
-                    iceRobot.encoderMove(-25,.5,this);
+                    iceRobot.encoderMove(-27,.5,this);
                     sleep(500);
                     iceRobot.encoderTurn(90);
                     sleep(500);
@@ -239,7 +240,7 @@ public class AutoStartNearDepotWithCamera extends LinearOpMode {
                 case 10: // goes forward to ensure team marker iss dropped
                     iceRobot.encoderMove(2,1,this);
                     sleep(500);
-                    iceRobot.encoderTurn(80);
+                    iceRobot.encoderTurn(60);
                     sleep(500);
                     iceRobot.stop();
                     state += 1;
