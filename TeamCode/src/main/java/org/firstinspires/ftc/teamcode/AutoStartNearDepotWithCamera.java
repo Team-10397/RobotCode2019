@@ -134,7 +134,7 @@ public class AutoStartNearDepotWithCamera extends LinearOpMode {
                             int silverMineral1X = -1;
                             int silverMineral2X = -1;
                             for (Recognition recognition : updatedRecognitions) { // code loops for every mineral that is detected
-                                if ((recognition.getLeft() > 350 && recognition.getTop() > 350)|| true) {
+                                if (recognition.getLeft() > 350 && recognition.getTop() > 350) {
                                     if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
                                         goldMineralX = (int) recognition.getTop(); // if a gold mineral is detected, its position is recorded
                                     } else if (silverMineral1X == -1) {
