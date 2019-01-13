@@ -144,11 +144,11 @@ public class AutoStartNearDepotWithCamera extends LinearOpMode {
                                     }
                                 }
                             }
-                            if (silverMineral1X != -1 && silverMineral2X != -1 && goldMineralX == -1) { //if two silver minerals are found, then the gold is on the left [] O O (the robot only scans for the right two minerals)
+                            if (goldMineralX == -1) { //if two silver minerals are found, then the gold is on the left [] O O (the robot only scans for the right two minerals)
                                 goldSpot = 1; //left
-                            } else if (goldMineralX < silverMineral1X) { // gold to the left of silver: O [] O
+                            } else if (goldMineralX < 550 && goldMineralX > 400) { // gold to the left of silver: O [] O
                                 goldSpot = 2; //center
-                            } else if (goldMineralX > silverMineral1X) { // gold to the right of silver: O O []
+                            } else if (goldMineralX > 800) { // gold to the right of silver: O O []
                                 goldSpot = 3; //right
                             }
                         }
@@ -198,9 +198,9 @@ public class AutoStartNearDepotWithCamera extends LinearOpMode {
                     state += goldSpot;
                     break;
                 case 5:
-                    iceRobot.encoderTurn(40);
+                    iceRobot.encoderTurn(45);
                     sleep(500);
-                    iceRobot.encoderMove(-22,.5,this);
+                    iceRobot.encoderMove(-26,.5,this);
                     sleep(500);
                     iceRobot.encoderTurn(-90);
                     sleep(500);
@@ -223,12 +223,12 @@ public class AutoStartNearDepotWithCamera extends LinearOpMode {
                     sleep(500);
                     iceRobot.encoderMove(-22,.5,this);
                     sleep(500);
-                    iceRobot.encoderTurn(-65);
+                    iceRobot.encoderTurn(-45);
                     sleep(500);
                     state = 8;
                     break;
                 case 8: // backs into the depot
-                    iceRobot.encoderMove(-12,1, this);
+                    iceRobot.encoderMove(-5,1, this);
                     sleep(500);
                     state += 1;
                     break;

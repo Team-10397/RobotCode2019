@@ -198,7 +198,7 @@ public class AutoStartNearCraterWithCamera extends LinearOpMode {
                     sleep(500);
                     iceRobot.encoderMove(9, 0.5, this);
                     sleep(500);
-                    iceRobot.encoderTurn(110);
+                    iceRobot.encoderTurn(100);
                     state = 8;
                     break;
                 case 7:
