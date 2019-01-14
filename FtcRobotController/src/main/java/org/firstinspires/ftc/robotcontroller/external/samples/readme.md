@@ -13,7 +13,6 @@ naming system, it will help to understand the conventions that were used during 
 
 These conventions are described (in detail) in the sample_conventions.md file in this folder.
 
-
 To summarize: A range of different samples classes will reside in the java/external/samples.
 The class names will follow a naming convention which indicates the purpose of each class.
 The prefix of the name will be one of the following:
@@ -50,7 +49,6 @@ After the prefix, other conventions will apply:
 * Sensor class names are constructed as:    Sensor - Company - Type
 * Hardware class names are constructed as:  Hardware - Robot type
 * Pushbot class names are constructed as:   Pushbot - Mode - Action - OpModetype
-* K9bot class names are constructed as:     K9bot - Mode - Action - OpModetype
 * Concept class names are constructed as:   Concept - Topic - OpModetype
 * Library class names are constructed as:   Library - Topic - OpModetype
 
